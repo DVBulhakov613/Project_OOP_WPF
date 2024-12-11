@@ -42,16 +42,13 @@ namespace Project_OOP_WPF
         public AppointmentState State
         {
             get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
         
         #endregion
 
         # region Methods
         public Appointment(int room, DateTime startTime, DateTime endTime, List<Staff> Staff, Patient appointee, AppointmentPurpose purpose) 
-        { throw new NotImplementedException(); }
-
-        public void ChangeState(AppointmentState newState)
         { throw new NotImplementedException(); }
         
         public override string ToString()

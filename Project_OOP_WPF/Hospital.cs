@@ -87,8 +87,6 @@ namespace Project_OOP_WPF
         #region Methods - Staff-related
         public void AddStaff(string firstName, string middleName, string lastName, DateTime birthDate, List<StaffRole> roles, List<Department>? departments = null)
         { throw new NotImplementedException(); }
-        public void AddStaff(Staff staff)
-        { throw new NotImplementedException(); }
         public void TransferStaff(int ID, Hospital targetHospital, Department targetDepartment)
         { throw new NotImplementedException(); }
         public void RemoveStaff(int ID)
