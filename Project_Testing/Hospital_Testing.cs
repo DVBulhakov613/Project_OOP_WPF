@@ -193,7 +193,7 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
             testHospital.AddRoom(4);
-            Assert.AreEqual(new List<int> { 1, 2, 3, 4 }, testHospital.Rooms, "Not adding rooms up correctly?");
+            CollectionAssert.AreEquivalent(new List<int> { 1, 2, 3, 4 }, testHospital.Rooms, "Not adding rooms up correctly?");
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddRoom(0), "Not checking for incorrect value range");
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddRoom(-1), "Not checking for incorrect value range");
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddRoom(1), "Not checking for overlap");
@@ -205,7 +205,7 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
             testHospital.AddRooms(new List<int>() { 4, 5 });
-            Assert.AreEqual(new List<int>() { 1, 2, 3, 4, 5 }, testHospital.Rooms);
+            CollectionAssert.AreEquivalent(new List<int>() { 1, 2, 3, 4, 5 }, testHospital.Rooms);
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddRooms(new List<int>() { -1, 0 }), "Not checking for incorrect value range"); // 0 and negative room id's are not allowed
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddRooms(new List<int>() { 1 }), "Not checking for overlap"); // overlap is not allowed
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddRooms(new List<int>() { 1, 2 }), "Not checking for overlap");
@@ -378,24 +378,23 @@ namespace Project_Testing
             Assert.AreNotEqual(testHospital.ActiveStaff[0].ID, testHospital.ActiveStaff[1].ID, "Staff IDs should always be unique");
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(TestUtilities.CorrectPersonNames), typeof(TestUtilities))]
-        public void Hospital_AddExistingStaff_Test(string correctName)
-        {
-            Hospital testHospital = TestUtilities.DefaultHospital_Testing();
-            testHospital.AddStaff(correctName, correctName, correctName, DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator });
-
-            Assert.AreEqual(1, testHospital.ActiveStaff.Count, "Something wrong with how you add things");
-
-            testHospital.AddStaff(correctName, correctName, correctName, DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator });
-
-            Assert.AreNotEqual(testHospital.ActiveStaff[0].ID, testHospital.ActiveStaff[1].ID, "Staff ID must always stay the same and unique");
-        }
-
         [TestMethod]
         public void Hospital_TransferStaff_Test()
         {
+            Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+            testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator});
+            testHospital.AddDepartment("DefaultDepartmentName", new List<int>() { 1, 2, 3 });
+            testHospital.Departments[0].AddStaff(0);
 
+            Hospital testHospital2 = TestUtilities.DefaultHospital_Testing();
+            testHospital2.AddDepartment("DefaultDepartmentName", new List<int>() { 1, 2, 3 });
+            testHospital.TransferStaff(0, testHospital2, testHospital2.Departments[0]);
+
+            Assert.ThrowsException<ArgumentException>(() => testHospital.TransferStaff(0, testHospital2, testHospital2.Departments[0]), "Staff with ID 0 should not exist in this context");
+            Assert.ThrowsException<ArgumentException>(() => testHospital2.TransferStaff(0, testHospital2, testHospital2.Departments[0]), "Can't add staff to the same department");
+
+            testHospital.AddDepartment("DefaultDepartmentName", new List<int>() { 1, 2, 3 });
+            testHospital2.TransferStaff(0, testHospital2, testHospital2.Departments[1]); // should be able to pass since it transfers staff from one dep to another
         }
 
         [TestMethod]
@@ -421,6 +420,21 @@ namespace Project_Testing
         public void Initialize()
         {
             TestUtilities.TestCleanup();
+        }
+        [TestMethod]
+        public void Department_Constructor_ParameterTesting()
+        {
+            Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+            testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator });
+            testHospital.AddDepartment("DefaultDepartmentName", new List<int>() { 1, 2, 3 });
+            testHospital.Departments[0].AddStaff(0);
+            testHospital.Departments[0].ChangeHead(0);
+
+            Assert.AreEqual("DefaultDepartmentName", testHospital.Departments[0].Name, "Incorrect name assignment?");
+            Assert.AreEqual(testHospital.ActiveStaff[0], testHospital.Departments[0].HeadOfDepartment, "Assigning the head incorrectly?");
+            CollectionAssert.AreEquivalent(new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Departments[0].DepartmentStaff, "Incorrectly assigning staff");
+            CollectionAssert.AreEquivalent(new List<int> { 1, 2, 3 }, testHospital.Departments[0].DepartmentRooms, "Assigning rooms incorrectly");
+            Assert.AreEqual(testHospital, testHospital.Departments[0].ParentHospital, "Assigning the link back to the parent hospital incorrectly");
         }
 
         [DataTestMethod]
@@ -545,10 +559,14 @@ namespace Project_Testing
         public void Staff_Constructor_ValidParameters(string CorrectNames)
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+            testHospital.AddDepartment("DefaultDepartmentName", new List<int> { 1, 2, 3, });
             Staff testStaff = new Staff(CorrectNames, CorrectNames, CorrectNames, DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator }, testHospital);
+            testHospital.Departments[0].AddStaff(0);
             Assert.AreEqual(CorrectNames, testStaff.FirstName, "Somehow assigning a wrong first name");
             Assert.AreEqual(CorrectNames, testStaff.MiddleName, "Somehow assigning a wrong middle name");
             Assert.AreEqual(CorrectNames, testStaff.LastName, "Somehow assigning a wrong last name");
+            Assert.AreEqual(testHospital.Departments[0], testStaff.Departments[0], "Assigning an incorrect department link");
+            Assert.AreEqual(testHospital, testStaff.CurrentHospital, "Incorrectly assigning a hospital link");
         }
 
         [DataTestMethod]
@@ -585,8 +603,8 @@ namespace Project_Testing
 
         //    DateTime time = DateTime.Now.AddDays(2); // shouldnt be able to make appointments 
         //    testHospital.ActiveStaff[0].AddAppointment(1, time, time.AddMinutes(1), new List<Staff> { testHospital.ActiveStaff[0]  }, testHospital.Patients[0], AppointmentPurpose.Consultation);
-        //    Assert.AreEqual<int>(1, testHospital.ActiveStaff[0].Schedule.Appointments.Count, "Not creating appointments correctly");
-        //    Assert.AreEqual(time, testHospital.ActiveStaff[0].Schedule.Appointments[0].Time, "Not assigning time correctly");
+        //    CollectionAssert.AreEquivalent<int>(1, testHospital.ActiveStaff[0].Schedule.Appointments.Count, "Not creating appointments correctly");
+        //    CollectionAssert.AreEquivalent(time, testHospital.ActiveStaff[0].Schedule.Appointments[0].Time, "Not assigning time correctly");
         //}
 
         //[TestMethod]
@@ -672,10 +690,13 @@ namespace Project_Testing
         public void Patient_Constructor_ValidParameters(string CorrectNames)
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
-            Patient testPatient = new Patient(CorrectNames, CorrectNames, CorrectNames, DateTime.Now, testHospital);
+            DateTime time = DateTime.Now;
+            Patient testPatient = new Patient(CorrectNames, CorrectNames, CorrectNames, time, testHospital);
             Assert.AreEqual(CorrectNames, testPatient.FirstName, "Somehow assigning a wrong first name");
             Assert.AreEqual(CorrectNames, testPatient.MiddleName, "Somehow assigning a wrong middle name");
             Assert.AreEqual(CorrectNames, testPatient.LastName, "Somehow assigning a wrong last name");
+            Assert.AreEqual(time, testPatient.BirthDate, "Assigning the wrong birthdate");
+            Assert.AreEqual(testHospital, testPatient.CurrentHospital, "Assigning the wrong hospital values?");
         }
 
         [DataTestMethod]
@@ -735,12 +756,12 @@ namespace Project_Testing
                 new List<string> { "medications" },
                 testDate);
             string expectedCompositeID = $"0-{testDate.Year}:{testDate.Month:D2}:{testDate.Day:D2}:{testDate.Hour:D2}";
-            
+
             Assert.AreEqual(expectedCompositeID, testPatient.MedicalHistory.First().Key, "Incorrect composite key generation");
-            Assert.AreEqual(new List<Staff> { testHospital.ActiveStaff[0] }, testPatient.MedicalHistory.First().Value.ParticipatingStaff, "Incorrect staff assignment");
-            Assert.AreEqual(new List<string> { "diagnoses" }, testPatient.MedicalHistory.First().Value.Diagnoses, "Incorrect diagnoses assignment");
-            Assert.AreEqual(new List<string> { "treatments" }, testPatient.MedicalHistory.First().Value.Treatments, "Incorrect treatments assignment");
-            Assert.AreEqual(new List<string> { "medications" }, testPatient.MedicalHistory.First().Value.Medications, "Incorrect medications assignment");
+            CollectionAssert.AreEquivalent(new List<Staff> { testHospital.ActiveStaff[0] }, testPatient.MedicalHistory.First().Value.ParticipatingStaff, "Incorrect staff assignment");
+            CollectionAssert.AreEquivalent(new List<string> { "diagnoses" }, testPatient.MedicalHistory.First().Value.Diagnoses, "Incorrect diagnoses assignment");
+            CollectionAssert.AreEquivalent(new List<string> { "treatments" }, testPatient.MedicalHistory.First().Value.Treatments, "Incorrect treatments assignment");
+            CollectionAssert.AreEquivalent(new List<string> { "medications" }, testPatient.MedicalHistory.First().Value.Medications, "Incorrect medications assignment");
         }
 
         [DataTestMethod]
@@ -846,8 +867,8 @@ namespace Project_Testing
 
         //    DateTime time = DateTime.Now.AddDays(2); // shouldnt be able to make appointments 
         //    testPatient.AddAppointment(1, time, time.AddMinutes(1), testHospital.ActiveStaff, AppointmentPurpose.Consultation);
-        //    Assert.AreEqual<int>(1, testPatient.Schedule.Appointments.Count, "Not creating appointments correctly");
-        //    Assert.AreEqual(time, testPatient.Schedule.Appointments[0].Time, "Not assigning time correctly");
+        //    CollectionAssert.AreEquivalent<int>(1, testPatient.Schedule.Appointments.Count, "Not creating appointments correctly");
+        //    CollectionAssert.AreEquivalent(time, testPatient.Schedule.Appointments[0].Time, "Not assigning time correctly");
         //}
 
         //[TestMethod]
@@ -929,8 +950,16 @@ namespace Project_Testing
                 new List<string> { "limit" },
                 new List<string> { "here" },
                 testHospital.ActiveStaff);
+            MedicalRecord testRecord3 = new MedicalRecord(
+                testHospital.Patients[0].GenerateCompositeID(testDate.AddDays(1)),
+                new List<string> { "no" },
+                new List<string> { "limit" },
+                new List<string> { "here" },
+                testHospital.ActiveStaff);
 
             Assert.AreNotEqual(testRecord.ID, testRecord2.ID, "Records created at the same time should have different ID's");
+            Assert.AreNotEqual(testRecord.ID, testRecord3.ID, "Records should have a different ID for every day of the month");
+            // ex: 0-2024:01:01 ({ID}-{YYYY}:{MM}:{DD})
         }
 
         // generally speaking you just cannot fuck up this constructor
@@ -1065,7 +1094,7 @@ namespace Project_Testing
             Assert.AreEqual(1, testAppointment.RoomID);
             Assert.AreEqual(time, testAppointment.StartTime);
             Assert.AreEqual(time.AddMinutes(15), testAppointment.EndTime);
-            Assert.AreEqual(new List<Staff> { testHospital.ActiveStaff[0] }, testAppointment.Staff);
+            CollectionAssert.AreEquivalent(new List<Staff> { testHospital.ActiveStaff[0] }, testAppointment.Staff);
             Assert.AreEqual(testHospital.Patients[0], testAppointment.Appointee);
             Assert.AreEqual(AppointmentPurpose.Consultation, testAppointment.Purpose);
             Assert.AreEqual(AppointmentState.Scheduled, testAppointment.State);
