@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Project_OOP_WPF
 {
-    public interface IPerson
+    public interface IPerson : IComparable
     {
-        public int ID { get; set; }
+        public int ID { get; }
         static IDManagement IDManager = new IDManagement();
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -19,6 +20,5 @@ namespace Project_OOP_WPF
 
         public string GetFullName();
         public void ChangeInfo(string? firstName = null, string? middleName = null, string? lastName = null, DateTime? birthDate = null);
-        public string ToString();
     }
 }

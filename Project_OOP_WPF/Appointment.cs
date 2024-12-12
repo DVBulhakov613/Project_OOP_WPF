@@ -8,51 +8,125 @@ namespace Project_OOP_WPF
 {
     public class Appointment
     {
-        # region Properties
+        private int _roomId;
+        private DateTime _startTime;
+        private DateTime _endTime;
+        private List<Staff> _staff;
+        private Patient _appointee;
+        private AppointmentPurpose _purpose;
+        private AppointmentState _state;
+
+        #region Properties
         public int RoomID
         {
-            get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            get => _roomId;
+            private set
+            {
+                if (value < 1)
+                    throw new ArgumentException("! APPOINTMENT: Rooms with ID below 0 are not possible.");
+                _roomId = value;
+            }
         }
+
         public DateTime StartTime
         {
-            get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            get => _startTime;
+            private set
+            {
+                //if (value >= EndTime)
+                //    throw new ArgumentException("Cannot schedule for a negative amount of time!");
+                if (value > DateTime.Now.AddMonths(2))
+                    throw new ArgumentException("! APPOINTMENT: Cannot schedule further than 2 months ahead.");
+                if (value < DateTime.Now.AddDays(1))
+                    throw new ArgumentException("! APPOINTMENT: Cannot schedule earlier than tomorrow.");
+                if (value < DateTime.Now)
+                    throw new ArgumentException("! APPOINTMENT: Cannot schedule an appointment in the past.");
+                _startTime = value;
+            }
         }
+
         public DateTime EndTime
         {
-            get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            get => _endTime;
+            private set
+            {
+                if (value <= StartTime)
+                    throw new ArgumentException("! APPOINTMENT: End time must be greater than the start time.");
+                if (value > DateTime.Now.AddMonths(2).AddHours(2))
+                    throw new ArgumentException("! APPOINTMENT: Cannot schedule further than 2 months ahead.");
+                if (value < DateTime.Now.AddDays(1))
+                    throw new ArgumentException("! APPOINTMENT: Cannot schedule earlier than tomorrow.");
+                if (value < DateTime.Now)
+                    throw new ArgumentException("! APPOINTMENT: Cannot schedule an appointment in the past.");
+                _endTime = value;
+            }
         }
+
         public List<Staff> Staff
         {
-            get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            get => _staff;
+            private set
+            {
+                if (value == null || value.Count == 0)
+                    throw new NullReferenceException("! APPOINTMENT: Staff list cannot be non-existent or empty.");
+                _staff = value;
+            }
         }
+
         public Patient Appointee
         {
-            get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            get => _appointee;
+            private set
+            {
+                if (value == null)
+                    throw new NullReferenceException("! APPOINTMENT: Appointee cannot be non-existent.");
+                _appointee = value;
+            }
         }
+
         public AppointmentPurpose Purpose
         {
-            get { throw new NotImplementedException(); }
-            private set { throw new NotImplementedException(); }
+            get => _purpose;
+            private set => _purpose = value; // there wont be any validation here tbh its not needed
         }
+
         public AppointmentState State
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get => _state;
+            set => _state = value; // there wont be any validation here tbh its not needed
         }
-        
         #endregion
 
-        # region Methods
-        public Appointment(int room, DateTime startTime, DateTime endTime, List<Staff> Staff, Patient appointee, AppointmentPurpose purpose) 
-        { throw new NotImplementedException(); }
-        
-        public override string ToString()
-        { throw new NotImplementedException(); }
+        #region Methods
+        public Appointment(int room, DateTime startTime, DateTime endTime, List<Staff> staff, Patient appointee, AppointmentPurpose purpose) 
+        {
+            List<string> exceptions = new();
+
+            try { RoomID = room; }
+            catch(Exception ex) { exceptions.Add(ex.Message); }
+            
+            try 
+            {
+                if (startTime <= endTime) throw new ArgumentException("! APPOINTMENT: The end time of an appointment must be greater than its start time.");
+                StartTime = startTime; 
+            }
+            catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            try { EndTime = endTime; }
+            catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            try { Staff = staff; }
+            catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            try { Appointee = appointee; }
+            catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            if (exceptions.Count > 0)
+                throw new ExceptionList(exceptions);
+
+            Purpose = purpose;
+            State = AppointmentState.Scheduled;
+        }
         # endregion
     }
 }
