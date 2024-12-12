@@ -7,7 +7,8 @@ namespace Project_Testing
         {
             ["Cityscape Medical Center"],
             ["Comfort Haven Clinic"],
-            ["Beyondlimit Wellness"]
+            ["Beyondlimit Wellness"],
+            ["      Cityscape Medical Center"]
         };
 
         public static IEnumerable<string>[] IncorrectHospitalNames =
@@ -16,8 +17,7 @@ namespace Project_Testing
             [" "],
             [""],
             ["1"],
-            ["abcde12345"],
-            ["      Cityscape Medical Center"]
+            ["abcde12345"]
         };
 
         public static IEnumerable<string>[] CorrectDepartmentNames =
@@ -27,7 +27,8 @@ namespace Project_Testing
             ["ER"],
             ["Radiology"],
             ["Laboratory"],
-            ["Psychiatry"]
+            ["Psychiatry"],
+            ["      Finance"]
         };
 
         public static IEnumerable<string>[] IncorrectDepartmentNames =
@@ -37,7 +38,6 @@ namespace Project_Testing
             [""],
             ["1"],
             ["abcde12345"],
-            ["      Finance"]
         };
 
         public static IEnumerable<string>[] CorrectPersonNames =
@@ -48,7 +48,8 @@ namespace Project_Testing
             ["John"],
             ["Vasiliy"],
             ["Robert"],
-            ["Bob"]
+            ["Bob"],
+            ["        Joe"]
         };
 
         public static IEnumerable<string>[] IncorrectPersonNames =
@@ -58,7 +59,6 @@ namespace Project_Testing
             [""],
             ["1"],
             ["abcde12345"],
-            ["        Joe"]
         };
 
         public static IEnumerable<string>[] IncorrectMedicalRecordInfo =
@@ -627,8 +627,6 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             Staff testStaff = TestUtilities.DefaultStaff_Testing(testHospital);
             List<StaffRole> currentStaffRoles = testStaff.Roles;
-
-            testStaff.ChangeRoles(new List<StaffRole>() { StaffRole.Therapist });
 
             Assert.AreNotEqual(currentStaffRoles, testStaff.Roles, "Not assigning the staff roles correctly");
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_OOP_WPF
 {
-    public class Appointment
+    public class Appointment //: IDisposable
     {
         private int _roomId;
         private DateTime _startTime;
@@ -15,6 +15,7 @@ namespace Project_OOP_WPF
         private Patient _appointee;
         private AppointmentPurpose _purpose;
         private AppointmentState _state;
+        private bool disposedValue;
 
         #region Properties
         public int RoomID
@@ -115,10 +116,16 @@ namespace Project_OOP_WPF
             try { EndTime = endTime; }
             catch (Exception ex) { exceptions.Add(ex.Message); }
 
-            try { Staff = staff; }
+            try {
+                if (staff == null || staff.Count == 0) 
+                    throw new NullReferenceException("! APPOINTMENT: Appointments must have at least one staff member present.");
+                Staff = staff; }
             catch (Exception ex) { exceptions.Add(ex.Message); }
 
-            try { Appointee = appointee; }
+            try {
+                if (appointee == null) 
+                    throw new NullReferenceException("! APPOINTMENT: Appointments must have a patient present.");
+                Appointee = appointee; }
             catch (Exception ex) { exceptions.Add(ex.Message); }
 
             if (exceptions.Count > 0)
@@ -127,6 +134,35 @@ namespace Project_OOP_WPF
             Purpose = purpose;
             State = AppointmentState.Scheduled;
         }
-        # endregion
+
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!disposedValue)
+        //    {
+        //        if (disposing)
+        //        {
+        //            // TODO: dispose managed state (managed objects)
+        //        }
+
+        //        // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+        //        // TODO: set large fields to null
+        //        disposedValue = true;
+        //    }
+        //}
+
+        //// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        //// ~Appointment()
+        //// {
+        ////     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        ////     Dispose(disposing: false);
+        //// }
+
+        //public void Dispose()
+        //{
+        //    // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //    Dispose(disposing: true);
+        //    GC.SuppressFinalize(this);
+        //}
+        #endregion
     }
 }
