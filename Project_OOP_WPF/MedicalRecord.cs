@@ -44,7 +44,7 @@ namespace Project_OOP_WPF
             if(staff != null && staff.Count() != 0)
                 ParticipatingStaff = staff.ToList();
         }
-        int IComparable.CompareTo(object obj)
+        int IComparable.CompareTo(object? obj)
         {
             if (obj == null) return 1;
             MedicalRecord other = obj as MedicalRecord;
@@ -68,13 +68,26 @@ namespace Project_OOP_WPF
         }
         // allows cloning of the object
         // should test if it will give me an error on parsing a null value with the staff
-        object ICloneable.Clone() => new MedicalRecord(
+        object ICloneable.Clone()
+        {
+            if(ParticipatingStaff != null) 
+                return new MedicalRecord(
                 ID,
                 Date,
                 Diagnoses.ToList(),
                 Treatments.ToList(),
                 Medications.ToList(),
-                ParticipatingStaff.ToList()) as object;
+                ParticipatingStaff.ToList()
+                ) as object;
+
+            else return new MedicalRecord(
+                ID,
+                Date,
+                Diagnoses.ToList(),
+                Treatments.ToList(),
+                Medications.ToList()
+                ) as object;
+        }
         // not sure about this one..
         //public override string ToString()
         //{ throw new NotImplementedException(); }
