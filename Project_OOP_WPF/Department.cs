@@ -13,6 +13,7 @@ namespace Project_OOP_WPF
     {
         private Staff _headOfDepartment;
         #region Properties
+        // an event made in case of department deletion to simplify the process
         public event Action<Department> DepartmentRemoved;
         public string Name { get; private set; }
         public Staff HeadOfDepartment 
@@ -64,7 +65,7 @@ namespace Project_OOP_WPF
                     if (staffList.Any(a => a.CurrentHospital != parent))
                         throw new ArgumentException("! DEPARTMENT: Cannot assign staff from a different hospital.");
                     foreach(Staff staff in staffList)
-                        DepartmentStaff.Add(staff.ID, staff);
+                        AddStaff(staff);
                 }
                 catch (Exception ex) { exceptions.Add(ex.Message); }
             }
@@ -75,10 +76,15 @@ namespace Project_OOP_WPF
             Name = name;
         }
 
+
         // change the head
         public void ChangeHead(int newHeadID)
-        { HeadOfDepartment = ParentHospital.ActiveStaff.First(a => a.ID == newHeadID) 
-                ?? throw new ArgumentException("! DEPARTMENT: Staff does not belong to parent hospital."); }
+        { 
+            HeadOfDepartment = ParentHospital.ActiveStaff.First(a => a.ID == newHeadID) 
+                ?? throw new ArgumentException("! DEPARTMENT: Staff does not belong to parent hospital."); 
+        }
+
+
         // change the name
         public void ChangeName(string newName) 
         {
@@ -93,22 +99,36 @@ namespace Project_OOP_WPF
             if (!regex.IsMatch(newName))
                 throw new ArgumentException("! DEPARTMENT: Illegal symbols detected.");
         }
+
+
         public void AddStaff(int ID) 
         {
-            if(!DepartmentStaff.ContainsKey(ID))  
-                throw new ArgumentException("! DEPARTMENT: Department does not contain a Staff member with this ID.");
+            if(DepartmentStaff.ContainsKey(ID))  
+                throw new ArgumentException("! DEPARTMENT: This Department already contains a Staff member with this ID.");
             DepartmentStaff.Add(
                 ParentHospital.ActiveStaff.First(a => a.ID == ID).ID,
                 ParentHospital.ActiveStaff.First(a => a.ID == ID)
                     ?? throw new ArgumentException("! DEPARTMENT: Staff does not belong to parent hospital.")); 
         }
+
+        public void AddStaff(Staff staff)
+        {
+            if (DepartmentStaff.ContainsKey(staff.ID))
+                throw new ArgumentException("! DEPARTMENT: This Department already contains a Staff member with this ID.");
+            if (staff.CurrentHospital != ParentHospital)
+                throw new ArgumentException("! DEPARTMENT: This Staff member is not part of the same hospital as this Department.");
+            DepartmentStaff.Add(staff.ID, staff);
+            DepartmentRemoved += staff.OnDepartmentRemoval;
+        }
         // importantly, this ID is for the DICTIONARY of the department
         // it should still line up with staff ID's though
-        public bool RemoveStaff(int ID) 
+        public void RemoveStaff(int ID) 
         {
             if (!DepartmentStaff.ContainsKey(ID)) 
                 throw new ArgumentException("! DEPARTMENT: Department does not contain a Staff member with this ID.");
-            return DepartmentStaff.Remove(ID);
+            
+            DepartmentRemoved -= DepartmentStaff[ID].OnDepartmentRemoval;
+            DepartmentStaff.Remove(ID);
         }
         // ID is for the DICTIONARY of the department
         // still should line up with staff ID's
@@ -121,13 +141,16 @@ namespace Project_OOP_WPF
 
             if (!transfer && ParentHospital != dep.ParentHospital)
                 throw new ArgumentException("! DEPARTMENT: Cannot transfer staff to a department in a different hospital when initiated inside the department.");
-            dep.DepartmentStaff.Add(ID, DepartmentStaff[ID]);
-            DepartmentStaff.Remove(ID);
+            dep.AddStaff(DepartmentStaff[ID]);
+            RemoveStaff(ID);
         }
 
+        // event that must be fired on department removal; important !!
         public void Remove()
         {
             DepartmentRemoved?.Invoke(this);
+            DepartmentRemoved = null;
+            DepartmentStaff.Clear();
         }
         //public string StaffInfo() 
         //{

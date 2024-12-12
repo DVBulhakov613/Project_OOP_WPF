@@ -57,6 +57,12 @@ namespace Project_OOP_WPF
 
             ID = IDManager.GenerateID();
         }
+
+        public void OnDepartmentRemoval(Department department)
+        {
+            
+            Departments?.Remove(department);
+        }
         #endregion
 
         #region Methods - Inherited from the Person interface
