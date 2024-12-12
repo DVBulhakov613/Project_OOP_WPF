@@ -9,14 +9,21 @@ namespace Project_OOP_WPF
     public class IDManagement
     {
         private int nextID = 0;
-        private Queue<int> recycledID;
+        private Queue<int> recycledID = new Queue<int>();
 
-        public IDManagement() 
-        { throw new NotImplementedException(); }
+        public IDManagement() { }
 
         public int GenerateID() 
-        { throw new NotImplementedException(); }
-        public int RecycleID() 
-        { throw new NotImplementedException(); }
+        {
+            if (recycledID.Count == 0)
+                return nextID++;
+            else return recycledID.Dequeue();
+        }
+        public void RecycleID(int id) 
+        {
+            if (id > 0 && id < nextID)
+                recycledID.Enqueue(id);
+            else throw new ArgumentException("Invalid ID for recycling!");
+        }
     }
 }

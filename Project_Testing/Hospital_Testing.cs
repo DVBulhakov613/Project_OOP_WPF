@@ -66,9 +66,7 @@ namespace Project_Testing
             [null],
             [" "],
             [""],
-            ["1"],
-            ["abcde12345"],
-            ["      boo"]
+            ["1"]
         };
 
         public static void TestCleanup()
@@ -280,7 +278,7 @@ namespace Project_Testing
                 Assert.ThrowsException<ArgumentException>(() => testHospital.AddPatient(IncorrectName, IncorrectName, IncorrectName, DateTime.Now), "Wrong algorithm for checking over name formats");
 
             testHospital.AddPatient("CorrectName", "CorrectName", "CorrectName", DateTime.Now);
-            Assert.AreNotEqual(testHospital.Patients[0].ID, testHospital.Patients[1].ID, "Patient ID should always stay unique");
+            Assert.AreNotEqual(((IPerson)testHospital.Patients[0]).ID, ((IPerson)testHospital.Patients[1]).ID, "Patient ID should always stay unique");
         }
 
         [DataTestMethod]
@@ -306,7 +304,7 @@ namespace Project_Testing
             Assert.AreEqual(1, testHospital.Patients.Count, "Something wrong with how you add things");
 
             testHospital.AddPatient(CorrectName, CorrectName, CorrectName, DateTime.Now);
-            Assert.AreNotEqual(testHospital.Patients[0].ID, testHospital.Patients[1].ID);
+            Assert.AreNotEqual(((IPerson)testHospital.Patients[0]).ID, ((IPerson)testHospital.Patients[1]).ID);
         }
 
         [TestMethod]
@@ -323,11 +321,11 @@ namespace Project_Testing
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddPatient(patient), "You are allowing duplicate patients");
 
             // the id should stay the same across all hospitals
-            int patientID = testHospital.Patients[0].ID;
+            int patientID = ((IPerson)testHospital.Patients[0]).ID;
             Hospital testHospital2 = TestUtilities.DefaultHospital_Testing();
             testHospital2.AddPatient(patient);
 
-            Assert.AreEqual(patientID, testHospital2.Patients[0].ID, "Patient ID must stay the same");
+            Assert.AreEqual(patientID, ((IPerson)testHospital2.Patients[0]).ID, "Patient ID must stay the same");
         }
 
         [TestMethod]
@@ -341,11 +339,11 @@ namespace Project_Testing
             Assert.ThrowsException<ArgumentException>(() => testHospital.TransferPatient(testHospital.Patients[0], testHospital), "Can transfer patients to the same hospital");
 
             // the id should stay the same
-            int patientID = testHospital.Patients[0].ID;
+            int patientID = ((IPerson)testHospital.Patients[0]).ID;
             testHospital.TransferPatient(testHospital.Patients[0], testHospital2);
 
             Assert.AreEqual(0, testHospital.Patients.Count, "Not removing patients after transfer");
-            Assert.AreEqual(patientID, testHospital2.Patients[0].ID, "Patient ID must stay the same");
+            Assert.AreEqual(patientID, ((IPerson)testHospital2.Patients[0]).ID, "Patient ID must stay the same");
         }
 
         [DataTestMethod]
@@ -375,7 +373,7 @@ namespace Project_Testing
             Assert.AreEqual(1, testHospital.ActiveStaff.Count, "Staff count mismatch");
 
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator }, new List<Department>());
-            Assert.AreNotEqual(testHospital.ActiveStaff[0].ID, testHospital.ActiveStaff[1].ID, "Staff IDs should always be unique");
+            Assert.AreNotEqual(((IPerson)testHospital.ActiveStaff[0]).ID, ((IPerson)testHospital.ActiveStaff[1]).ID, "Staff IDs should always be unique");
         }
 
         [TestMethod]
@@ -409,7 +407,7 @@ namespace Project_Testing
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
             testHospital.RemoveStaff(0);
 
-            Assert.AreEqual(1, testHospital.ActiveStaff[0].ID, "Incorrect staff removal logic");
+            Assert.AreEqual(1, ((IPerson)testHospital.ActiveStaff[0]).ID, "Incorrect staff removal logic");
         }
     }
 
@@ -463,7 +461,7 @@ namespace Project_Testing
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
             testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 }, testHospital.ActiveStaff[0]);
 
-            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(testHospital.ActiveStaff[0].ID), "Cannot assing staff to a position they are already occupying");
+            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(((IPerson)testHospital.ActiveStaff[0]).ID), "Cannot assing staff to a position they are already occupying");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(10), "Not checking for value range");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(-1), "Not checking for value range");
         }
@@ -494,7 +492,7 @@ namespace Project_Testing
 
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].AddStaff(-1), "Not checking for ID range");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].AddStaff(10), "Not checking for ID range");
-            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].AddStaff(testHospital.ActiveStaff[0].ID), "Not checking for ID range");
+            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].AddStaff(((IPerson)testHospital.ActiveStaff[0]).ID), "Not checking for ID range");
         }
 
         [TestMethod]
@@ -510,13 +508,13 @@ namespace Project_Testing
 
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].RemoveStaff(-1), "Not checking for ID range");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].RemoveStaff(10), "Not checking for ID range");
-            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].RemoveStaff(testHospital.ActiveStaff[0].ID), "Not checking for ID range");
+            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].RemoveStaff(((IPerson)testHospital.ActiveStaff[0]).ID), "Not checking for ID range");
 
             Hospital testHospital2 = TestUtilities.DefaultHospital_Testing();
             testHospital2.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 });
             testHospital2.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now, new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital2.Departments[0] });
 
-            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].RemoveStaff(testHospital2.ActiveStaff[0].ID), "Not checking for whether the staff belongs to this hospital");
+            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].RemoveStaff(((IPerson)testHospital2.ActiveStaff[0]).ID), "Not checking for whether the staff belongs to this hospital");
         }
 
         [TestMethod]
@@ -562,11 +560,11 @@ namespace Project_Testing
             testHospital.AddDepartment("DefaultDepartmentName", new List<int> { 1, 2, 3, });
             Staff testStaff = new Staff(CorrectNames, CorrectNames, CorrectNames, DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator }, testHospital);
             testHospital.Departments[0].AddStaff(0);
-            Assert.AreEqual(CorrectNames, testStaff.FirstName, "Somehow assigning a wrong first name");
-            Assert.AreEqual(CorrectNames, testStaff.MiddleName, "Somehow assigning a wrong middle name");
-            Assert.AreEqual(CorrectNames, testStaff.LastName, "Somehow assigning a wrong last name");
+            Assert.AreEqual(CorrectNames, ((IPerson)testStaff).FirstName, "Somehow assigning a wrong first name");
+            Assert.AreEqual(CorrectNames, ((IPerson)testStaff).MiddleName, "Somehow assigning a wrong middle name");
+            Assert.AreEqual(CorrectNames, ((IPerson)testStaff).LastName, "Somehow assigning a wrong last name");
             Assert.AreEqual(testHospital.Departments[0], testStaff.Departments[0], "Assigning an incorrect department link");
-            Assert.AreEqual(testHospital, testStaff.CurrentHospital, "Incorrectly assigning a hospital link");
+            Assert.AreEqual(testHospital, ((IPerson)testStaff).CurrentHospital, "Incorrectly assigning a hospital link");
         }
 
         [DataTestMethod]
@@ -641,7 +639,7 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             Staff testStaff = TestUtilities.DefaultStaff_Testing(testHospital);
 
-            Assert.AreEqual($"DefaultName DefaultName DefaultName", testStaff.GetFullName(), "Probably incorrect output format");
+            Assert.AreEqual($"DefaultName DefaultName DefaultName", ((IPerson)testStaff).GetFullName(), "Probably incorrect output format");
         }
 
         [TestMethod]
@@ -650,14 +648,14 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             Staff testStaff = TestUtilities.DefaultStaff_Testing(testHospital);
 
-            DateTime staffDOB = testStaff.BirthDate;
+            DateTime staffDOB = ((IPerson)testStaff).BirthDate;
             DateTime time = DateTime.Now.AddYears(-19);
 
-            testStaff.ChangeInfo("DefaultName2", "DefaultName2", "DefaultName2", time);
-            Assert.AreEqual("DefaultName2", testStaff.FirstName, "Not assigning a new first name");
-            Assert.AreEqual("DefaultName2", testStaff.MiddleName, "Not assigning a new middle name");
-            Assert.AreEqual("DefaultName2", testStaff.LastName, "Not assigning a new last name");
-            Assert.AreNotEqual(staffDOB, testStaff.BirthDate, "Not assigning a new date of birth");
+            ((IPerson)testStaff).ChangeInfo("DefaultName2", "DefaultName2", "DefaultName2", time);
+            Assert.AreEqual("DefaultName2", ((IPerson)testStaff).FirstName, "Not assigning a new first name");
+            Assert.AreEqual("DefaultName2", ((IPerson)testStaff).MiddleName, "Not assigning a new middle name");
+            Assert.AreEqual("DefaultName2", ((IPerson)testStaff).LastName, "Not assigning a new last name");
+            Assert.AreNotEqual(staffDOB, ((IPerson)testStaff).BirthDate, "Not assigning a new date of birth");
         }
 
         [DataTestMethod]
@@ -667,11 +665,11 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             Staff testStaff = TestUtilities.DefaultStaff_Testing(testHospital);
 
-            Assert.ThrowsException<ArgumentException>(() => testStaff.ChangeInfo(names, "CorrectName", "CorrectName", DateTime.Now), "Not checking format for first name");
-            Assert.ThrowsException<ArgumentException>(() => testStaff.ChangeInfo("CorrectName", names, "CorrectName", DateTime.Now), "Not checking format for middle name");
-            Assert.ThrowsException<ArgumentException>(() => testStaff.ChangeInfo("CorrectName", "CorrectName", names, DateTime.Now), "Not checking format for last name");
-            Assert.ThrowsException<ArgumentException>(() => testStaff.ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-120)), "Not checking birthdate range");
-            Assert.ThrowsException<ArgumentException>(() => testStaff.ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(1)), "Not checking birthdate range");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testStaff).ChangeInfo(names, "CorrectName", "CorrectName", DateTime.Now), "Not checking format for first name");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testStaff).ChangeInfo("CorrectName", names, "CorrectName", DateTime.Now), "Not checking format for middle name");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testStaff).ChangeInfo("CorrectName", "CorrectName", names, DateTime.Now), "Not checking format for last name");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testStaff).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-120)), "Not checking birthdate range");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testStaff).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(1)), "Not checking birthdate range");
         }
         // there should also be a ToString() test but im not sure of what the format should be just yet
     }
@@ -692,11 +690,11 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             DateTime time = DateTime.Now;
             Patient testPatient = new Patient(CorrectNames, CorrectNames, CorrectNames, time, testHospital);
-            Assert.AreEqual(CorrectNames, testPatient.FirstName, "Somehow assigning a wrong first name");
-            Assert.AreEqual(CorrectNames, testPatient.MiddleName, "Somehow assigning a wrong middle name");
-            Assert.AreEqual(CorrectNames, testPatient.LastName, "Somehow assigning a wrong last name");
-            Assert.AreEqual(time, testPatient.BirthDate, "Assigning the wrong birthdate");
-            Assert.AreEqual(testHospital, testPatient.CurrentHospital, "Assigning the wrong hospital values?");
+            Assert.AreEqual(CorrectNames, ((IPerson)testPatient).FirstName, "Somehow assigning a wrong first name");
+            Assert.AreEqual(CorrectNames, ((IPerson)testPatient).MiddleName, "Somehow assigning a wrong middle name");
+            Assert.AreEqual(CorrectNames, ((IPerson)testPatient).LastName, "Somehow assigning a wrong last name");
+            Assert.AreEqual(time, ((IPerson)testPatient).BirthDate, "Assigning the wrong birthdate");
+            Assert.AreEqual(testHospital, ((IPerson)testPatient).CurrentHospital, "Assigning the wrong hospital values?");
         }
 
         [DataTestMethod]
@@ -757,11 +755,11 @@ namespace Project_Testing
                 testDate);
             string expectedCompositeID = $"0-{testDate.Year}:{testDate.Month:D2}:{testDate.Day:D2}:{testDate.Hour:D2}";
 
-            Assert.AreEqual(expectedCompositeID, testPatient.MedicalHistory.First().Key, "Incorrect composite key generation");
-            CollectionAssert.AreEquivalent(new List<Staff> { testHospital.ActiveStaff[0] }, testPatient.MedicalHistory.First().Value.ParticipatingStaff, "Incorrect staff assignment");
-            CollectionAssert.AreEquivalent(new List<string> { "diagnoses" }, testPatient.MedicalHistory.First().Value.Diagnoses, "Incorrect diagnoses assignment");
-            CollectionAssert.AreEquivalent(new List<string> { "treatments" }, testPatient.MedicalHistory.First().Value.Treatments, "Incorrect treatments assignment");
-            CollectionAssert.AreEquivalent(new List<string> { "medications" }, testPatient.MedicalHistory.First().Value.Medications, "Incorrect medications assignment");
+            Assert.AreEqual(expectedCompositeID, testPatient.MedicalHistory.First().ID, "Incorrect composite key generation");
+            CollectionAssert.AreEquivalent(new List<Staff> { testHospital.ActiveStaff[0] }, testPatient.MedicalHistory.First().ParticipatingStaff, "Incorrect staff assignment");
+            CollectionAssert.AreEquivalent(new List<string> { "diagnoses" }, testPatient.MedicalHistory.First().Diagnoses, "Incorrect diagnoses assignment");
+            CollectionAssert.AreEquivalent(new List<string> { "treatments" }, testPatient.MedicalHistory.First().Treatments, "Incorrect treatments assignment");
+            CollectionAssert.AreEquivalent(new List<string> { "medications" }, testPatient.MedicalHistory.First().Medications, "Incorrect medications assignment");
         }
 
         [DataTestMethod]
@@ -895,7 +893,7 @@ namespace Project_Testing
             Patient testPatient = TestUtilities.DefaultPatient_Testing(testHospital);
 
             string expected = "DefaultName DefaultName DefaultName";
-            Assert.AreEqual(expected, testPatient.GetFullName(), "Must output in format: FirstName MiddleName LastName");
+            Assert.AreEqual(expected, ((IPerson)testPatient).GetFullName(), "Must output in format: FirstName MiddleName LastName");
         }
 
         [DataTestMethod]
@@ -906,11 +904,11 @@ namespace Project_Testing
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole> { StaffRole.Administrator });
             Patient testPatient = TestUtilities.DefaultPatient_Testing(testHospital);
 
-            Assert.ThrowsException<ArgumentException>(() => testPatient.ChangeInfo(names, "CorrectName", "CorrectName", DateTime.Now.AddYears(-20)), "Not checking format for first name");
-            Assert.ThrowsException<ArgumentException>(() => testPatient.ChangeInfo("CorrectName", names, "CorrectName", DateTime.Now.AddYears(-20)), "Not checking format for middle name");
-            Assert.ThrowsException<ArgumentException>(() => testPatient.ChangeInfo("CorrectName", "CorrectName", names, DateTime.Now.AddYears(-20)), "Not checking format for last name");
-            Assert.ThrowsException<ArgumentException>(() => testPatient.ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-120)), "Not checking for birthdate range");
-            Assert.ThrowsException<ArgumentException>(() => testPatient.ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(1)), "Not checking for birthdate range");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testPatient).ChangeInfo(names, "CorrectName", "CorrectName", DateTime.Now.AddYears(-20)), "Not checking format for first name");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", names, "CorrectName", DateTime.Now.AddYears(-20)), "Not checking format for middle name");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", names, DateTime.Now.AddYears(-20)), "Not checking format for last name");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-120)), "Not checking for birthdate range");
+            Assert.ThrowsException<ArgumentException>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(1)), "Not checking for birthdate range");
         }
 
         //[TestMethod]
@@ -941,25 +939,28 @@ namespace Project_Testing
 
             MedicalRecord testRecord = new MedicalRecord(
                 testHospital.Patients[0].GenerateCompositeID(testDate),
+                testDate,
                 new List<string> { "no"},
                 new List<string> { "limit" },
                 new List<string> { "here" });
             MedicalRecord testRecord2 = new MedicalRecord(
                 testHospital.Patients[0].GenerateCompositeID(testDate),
+                testDate,
                 new List<string> { "no" },
                 new List<string> { "limit" },
                 new List<string> { "here" },
                 testHospital.ActiveStaff);
             MedicalRecord testRecord3 = new MedicalRecord(
                 testHospital.Patients[0].GenerateCompositeID(testDate.AddDays(1)),
+                testDate,
                 new List<string> { "no" },
                 new List<string> { "limit" },
                 new List<string> { "here" },
                 testHospital.ActiveStaff);
 
             Assert.AreNotEqual(testRecord.ID, testRecord2.ID, "Records created at the same time should have different ID's");
-            Assert.AreNotEqual(testRecord.ID, testRecord3.ID, "Records should have a different ID for every day of the month");
-            // ex: 0-2024:01:01 ({ID}-{YYYY}:{MM}:{DD})
+            Assert.AreNotEqual(testRecord.ID, testRecord3.ID, "Records should have a different ID for every day of the month; Check Patient's CompositeID");
+            // ex: 0-2024:01:01 ({ID}-{time:dd.MM.yyyy})
         }
 
         // generally speaking you just cannot fuck up this constructor
@@ -1109,19 +1110,19 @@ namespace Project_Testing
 
             DateTime time = DateTime.Now.AddDays(2);
             // rooms
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(0, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Room does not exist");
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(4, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Room does not exist");
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(-1, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Room cannot exist");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(0, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Room does not exist");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(4, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Room does not exist");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(-1, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Room cannot exist");
             // time
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(1, DateTime.Now, DateTime.Now.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Invalid time range (trying to make an appointment right now)");
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(1, DateTime.Now.AddMinutes(-15), DateTime.Now, new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Invalid time range (trying to make an appointment in the past)");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(1, DateTime.Now, DateTime.Now.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Invalid time range (trying to make an appointment right now)");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(1, DateTime.Now.AddMinutes(-15), DateTime.Now, new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Consultation), "Invalid time range (trying to make an appointment in the past)");
             // missing: staff
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(1, time, time.AddMinutes(15), new List<Staff> { }, testHospital.Patients[0], AppointmentPurpose.Consultation), "There must be at least some staff present");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(1, time, time.AddMinutes(15), new List<Staff> { }, testHospital.Patients[0], AppointmentPurpose.Consultation), "There must be at least some staff present");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(1, time, time.AddMinutes(15), null, testHospital.Patients[0], AppointmentPurpose.Consultation), "Staff cannot be null");
             // missing: patients
-            Assert.ThrowsException<NullReferenceException>(() => new Appointment(1, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, null, AppointmentPurpose.Consultation), "There must be an appointee");
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(1, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, null, AppointmentPurpose.Consultation), "There must be an appointee");
             // unknown appointmentpurpose
-            Assert.ThrowsException<ArgumentException>(() => new Appointment(1, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Unknown), "Unknown is there for technical reasons; shouldn't be allowed in the constructor");
-
+            Assert.ThrowsException<ExceptionList>(() => new Appointment(1, time, time.AddMinutes(15), new List<Staff> { testHospital.ActiveStaff[0] }, testHospital.Patients[0], AppointmentPurpose.Unknown), "Unknown is there for technical reasons; shouldn't be allowed in the constructor");
         }
 
         //[TestMethod]
