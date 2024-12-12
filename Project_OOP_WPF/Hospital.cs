@@ -76,7 +76,7 @@ namespace Project_OOP_WPF
         {
             if (id < 0 || id > Departments.Count - 1)
                 throw new ArgumentException("! HOSPITAL: Cannot remove a department that does not exist.");
-            Departments[id].RemoveStaff(t => Departments[id].DepartmentStaff.Keys);
+            
         }
         #endregion
 
