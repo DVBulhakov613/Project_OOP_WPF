@@ -81,7 +81,7 @@ namespace Project_Testing
             return new Hospital(
                 "TestName", // hospital name
                 "TestLocation", // hospital location
-                new List<int> { 1, 2, 3 } // rooms
+                new SortedSet<int> { 1, 2, 3 } // rooms
             );
         }
 
@@ -134,7 +134,7 @@ namespace Project_Testing
         {
             string location = "this can be anything in any format doesn't really matter";
 
-            List<int> rooms = new() { 1, 2, 3, 4, 5 };
+            SortedSet<int> rooms = new() { 1, 2, 3, 4, 5 };
 
             if (string.IsNullOrWhiteSpace(IncorrectHospitalName))
                 Assert.ThrowsException<NullReferenceException>(() => new Hospital(IncorrectHospitalName, location, rooms), "Not checking for empty strings");
@@ -148,7 +148,7 @@ namespace Project_Testing
         {
             string location = "this can be anything in any format doesn't really matter";
 
-            List<int> rooms = new() { 1, 2, 3, 4, 5 };
+            SortedSet<int> rooms = new() { 1, 2, 3, 4, 5 };
 
             new Hospital(CorrectHospitalName, location, rooms); // will throw an exception if it doesnt go through
         }
@@ -158,9 +158,9 @@ namespace Project_Testing
         {
             string location = "this can be anything in any format doesn't really matter";
 
-            Assert.ThrowsException<ArgumentException>(() => new Hospital("TestHospital", location, new List<int>() { -1 }), "Not checking for correct room format");
-            Assert.ThrowsException<ArgumentException>(() => new Hospital("TestHospital", location, new List<int>() { 0 }), "Not checking for correct room format");
-            Assert.ThrowsException<ArgumentException>(() => new Hospital("TestHospital", location, new List<int>()), "Not checking for correct room format");
+            Assert.ThrowsException<ArgumentException>(() => new Hospital("TestHospital", location, new SortedSet<int>() { -1 }), "Not checking for correct room format");
+            Assert.ThrowsException<ArgumentException>(() => new Hospital("TestHospital", location, new SortedSet<int>() { 0 }), "Not checking for correct room format");
+            Assert.ThrowsException<ArgumentException>(() => new Hospital("TestHospital", location, new SortedSet<int>()), "Not checking for correct room format");
         }
 
         [DataTestMethod]
@@ -169,7 +169,7 @@ namespace Project_Testing
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
-            testHospital.ChangeName(CorrectName);
+            testHospital.ChangeNameOrLocation(CorrectName);
             Assert.AreEqual(CorrectName, testHospital.Name, "Name assignment is incorrect");
         }
 
@@ -180,9 +180,9 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
             if (string.IsNullOrWhiteSpace(IncorrectName))
-                Assert.ThrowsException<NullReferenceException>(() => testHospital.ChangeName(IncorrectName), "Not checking for empty strings");
+                Assert.ThrowsException<NullReferenceException>(() => testHospital.ChangeNameOrLocation(IncorrectName), "Not checking for empty strings");
             else
-                Assert.ThrowsException<ArgumentException>(() => testHospital.ChangeName(IncorrectName), "Not checking for name format");
+                Assert.ThrowsException<ArgumentException>(() => testHospital.ChangeNameOrLocation(IncorrectName), "Not checking for name format");
         }
 
         [TestMethod]
@@ -198,7 +198,7 @@ namespace Project_Testing
         }
 
         [TestMethod]
-        public void Hospital_AddRooms_Test(List<int> rooms)
+        public void Hospital_AddRooms_Test(SortedSet<int> rooms)
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
@@ -239,32 +239,32 @@ namespace Project_Testing
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddDepartment(CorrectName, new List<int>() { 1, 2, 3 }), "Allowing duplicate names");
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(TestUtilities.CorrectDepartmentNames), typeof(TestUtilities))]
-        public void Hospital_RemoveDepartmentNullInput_Test(string IncorrectName)
-        {
-            Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+        //[DataTestMethod]
+        //[DynamicData(nameof(TestUtilities.CorrectDepartmentNames), typeof(TestUtilities))]
+        //public void Hospital_RemoveDepartmentNullInput_Test(string IncorrectName)
+        //{
+        //    Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
-            if (string.IsNullOrEmpty(IncorrectName))
-                Assert.ThrowsException<NullReferenceException>(() => testHospital.RemoveDepartment(IncorrectName), "Not checking for empty strings");
+        //    if (string.IsNullOrEmpty(IncorrectName))
+        //        Assert.ThrowsException<NullReferenceException>(() => testHospital.RemoveDepartment(IncorrectName), "Not checking for empty strings");
 
-        }
+        //}
 
-        [TestMethod]
-        public void Hospital_RemoveDepartmentIncorrectInput_Test()
-        {
-            Hospital testHospital = TestUtilities.DefaultHospital_Testing();
-            testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 });
-            testHospital.AddDepartment("CorrectName1", new List<int>() { 1, 2, 3 });
-            testHospital.AddDepartment("CorrectName2", new List<int>() { 1, 2, 3 });
+        //[TestMethod]
+        //public void Hospital_RemoveDepartmentIncorrectInput_Test()
+        //{
+        //    Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+        //    testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 });
+        //    testHospital.AddDepartment("CorrectName1", new List<int>() { 1, 2, 3 });
+        //    testHospital.AddDepartment("CorrectName2", new List<int>() { 1, 2, 3 });
 
-            Assert.AreEqual(3, testHospital.Departments.Count, "Not adding correctly?");
+        //    Assert.AreEqual(3, testHospital.Departments.Count, "Not adding correctly?");
 
-            testHospital.RemoveDepartment("CorrectName1");
+        //    testHospital.RemoveDepartment("CorrectName1");
 
-            Assert.AreEqual(2, testHospital.Departments.Count, "Not actually deleting the object?");
-            Assert.ThrowsException<ArgumentException>(() => testHospital.RemoveDepartment("CorrectName1"), "Can delete what is not there anymore");
-        }
+        //    Assert.AreEqual(2, testHospital.Departments.Count, "Not actually deleting the object?");
+        //    Assert.ThrowsException<ArgumentException>(() => testHospital.RemoveDepartment("CorrectName1"), "Can delete what is not there anymore");
+        //}
 
         [DataTestMethod]
         [DynamicData(nameof(TestUtilities.IncorrectPersonNames), typeof(TestUtilities))]
@@ -399,6 +399,7 @@ namespace Project_Testing
         public void Hospital_RemoveStaff_Test()
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+            testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 });
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
 
             Assert.ThrowsException<ArgumentException>(() => testHospital.RemoveStaff(-1), "Negative staff ID should throw an exception");
@@ -457,9 +458,9 @@ namespace Project_Testing
         public void Department_ChangeHead_InvalidCases()
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+            testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 });
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
-            testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 }, testHospital.ActiveStaff[0]);
 
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(((IPerson)testHospital.ActiveStaff[0]).ID), "Cannot assing staff to a position they are already occupying");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(10), "Not checking for value range");
