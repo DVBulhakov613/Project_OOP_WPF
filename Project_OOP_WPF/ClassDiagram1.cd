@@ -1,108 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Project_OOP_WPF.Appointment" Collapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>IAEAAAACIAAAAAAQECAACAAAICAgAAAAIAAABgAAIAA=</HashCode>
-      <FileName>Appointment.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Project_OOP_WPF.AppointmentSchedule" Collapsed="true">
-    <Position X="13.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAQAAQAAAAAAgAQAAAAAA=</HashCode>
-      <FileName>AppointmentSchedule.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Project_OOP_WPF.Department" Collapsed="true">
-    <Position X="15.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAQAAQAAAAAAAICABAQAAIBBAIAAIAAAAEAAAAA=</HashCode>
-      <FileName>Department.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Project_OOP_WPF.ExceptionList" Collapsed="true">
-    <Position X="12" Y="1.5" Width="1.5" />
+  <Class Name="Project_OOP_WPF.ExceptionList">
+    <Position X="14.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MassExceptionHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Project_OOP_WPF.Hospital" Collapsed="true">
-    <Position X="13.75" Y="1.5" Width="1.5" />
+  <Class Name="Project_OOP_WPF.Hospital">
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAAAYAAhhCAACIAQQQCAMAQAAAAJCAAAAAAAAQ=</HashCode>
+      <HashCode>AAAAIAAAAYQAhBCAAAIAQAQCAECQAgAABCAAAAAAAAQ=</HashCode>
       <FileName>Hospital.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Project_OOP_WPF.IDManagement" Collapsed="true">
-    <Position X="15.5" Y="1.5" Width="1.5" />
+  <Class Name="Project_OOP_WPF.IDManagement">
+    <Position X="5.75" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAAABBAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>IDManagement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Project_OOP_WPF.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="12" Y="2.5" Width="1.5" />
+  <Class Name="Project_OOP_WPF.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAAAAAQAAAAAAAAAAAAAgEAAAAAAAgAAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Project_OOP_WPF.MedicalRecord" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="13.75" Y="2.5" Width="1.5" />
+  <Class Name="Project_OOP_WPF.MedicalRecord" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAACgAAIAAAAAAAAAgAAAAABAAAAAgAAAAA=</HashCode>
       <FileName>MedicalRecord.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Project_OOP_WPF.Patient" Collapsed="true">
-    <Position X="9.5" Y="1.75" Width="1.5" />
+  <Class Name="Project_OOP_WPF.Patient">
+    <Position X="2.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAIAAAAABAAAAwAAEAQAAAAAAQAAAAgAAA=</HashCode>
+      <HashCode>AAAAAAIAAAAIAAAAABAAAAwAAAAQAAAAAAQAAAAgAAA=</HashCode>
       <FileName>Patient.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_OOP_WPF.Person" Collapsed="true">
-    <Position X="8.5" Y="0.5" Width="1.5" />
+    <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAEAAEAAAAIIgAQAAAEQAAwAAEAQAAAIAAAAAAAAAAg=</HashCode>
       <FileName>Person.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Project_OOP_WPF.Staff" Collapsed="true">
-    <Position X="7.25" Y="1.75" Width="1.5" />
+  <Class Name="Project_OOP_WPF.Staff">
+    <Position X="4" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAIAAAAACAAAAwAAmAQAAAAAAABAAAACAA=</HashCode>
+      <HashCode>BAAAAAAAAAAIAAAAAAAAAAwAAgAQAAAAAAABAAAAAAA=</HashCode>
       <FileName>Staff.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="Project_OOP_WPF.IPerson" Collapsed="true">
-    <Position X="12" Y="3.75" Width="1.5" />
+  <Interface Name="Project_OOP_WPF.IPerson">
+    <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAEAAAAAAgAAAAAAQAAwAAAAQAAAIAAAAAAAAAAg=</HashCode>
       <FileName>IPerson.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="Project_OOP_WPF.AppointmentPurpose" Collapsed="true">
-    <Position X="12" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAIIAAAAAIAAAAAAAAAAAAAAAAAAAABA=</HashCode>
-      <FileName>AppointmentPurpose.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="Project_OOP_WPF.AppointmentState" Collapsed="true">
-    <Position X="13.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAEAAAAQAAAAAEAAAAAAAAAAAAAAABA=</HashCode>
-      <FileName>AppointmentState.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="Project_OOP_WPF.StaffRole" Collapsed="true">
-    <Position X="15.5" Y="4.75" Width="1.5" />
+  <Enum Name="Project_OOP_WPF.StaffRole">
+    <Position X="12.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EEAAAAAAAQAIAACAAAAAAAAAAAEgAAUIAAAAAAACAAE=</HashCode>
       <FileName>StaffRole.cs</FileName>
