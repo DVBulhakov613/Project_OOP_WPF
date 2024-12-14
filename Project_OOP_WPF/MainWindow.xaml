@@ -4,9 +4,82 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_OOP_WPF_WPF"
+        xmlns:views="clr-namespace:Project_OOP_WPF.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <DockPanel>
+            <!-- Menu -->
+            <ScrollViewer DockPanel.Dock="Left" Width="250" Background="AliceBlue">
+                <StackPanel>
+                    <!-- People tab -->
+                    <Expander Name="HospitalExpander" Header="Hospital Management" FontWeight="Bold">
+                        <StackPanel>
+                            <Button Name="NewHospital" Content="New Hospital" Margin="20,3,5,0" Click="NewHospital_Click"/>
+                            <Button Name="ViewHospitals" Content="View Hospitals" Margin="20,3,5,0" Click="ViewHospitals_Click"/>
+                            <!-- People -> Patients-->
+                            <TextBlock Text="Everything related to people." Margin="20, 0, 0, 0"/>
+                            <Expander Name="PatientsExpander" Header="Patients" FontWeight="Bold" Margin="20,3,5,0">
+                                <StackPanel>
+                                    <Button Name="Patients_AddPatientsButton" Content="Add Patient" Margin="20,3,5,0" Click="Patients_AddPatientsButton_Click"/>
+                                    <Button Name="Patients_ViewPatients" Content="View Patients" Margin="20,3,5,0" Click="Patients_ViewPatients_Click"/>
+                                    <!-- People -> Patients -> Medical Records -->
+                                    <Expander Header="Medical Records" FontWeight="Bold" Margin="20,3,5,0">
+                                        <StackPanel>
+                                            <Button Content="1" Margin="20,3,5,0"/>
+                                            <Button Content="2" Margin="20,3,5,0"/>
+                                        </StackPanel>
+                                    </Expander>
+                                    <!-- People -> Patients -> Options -->
+                                    <Expander Name="PatientsOptionsExpander" Header="Options" FontWeight="Bold" Margin="20,3,0,0">
+                                        <StackPanel>
+                                            <Button Content="1" Margin="20,3,5,0"/>
+                                            <Button Content="2" Margin="20,3,5,0"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </Expander>
+                            <!-- People -> Staff -->
+                            <Expander Name="StaffExpander" Header="Staff" FontWeight="Bold" Margin="20,3,5,0">
+                                <StackPanel>
+                                    <Button Content="Add Staff" Margin="20,3,5,0"/>
+                                    <Button Content="View Staff" Margin="20,3,5,0"/>
+                                    <!-- People -> Staff -> Options -->
+                                    <Expander Name="StaffOptionsExpander" Header="Options" FontWeight="Bold" Margin="20,3,0,0">
+                                        <StackPanel>
+                                            <Button Content="1" Margin="20,3,5,0"/>
+                                            <Button Content="2" Margin="20,3,5,0"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="ScheduleExpander" Header="Schedule" FontWeight="Bold" Margin="20,3,5,0">
+                                <StackPanel>
+                                    <Button Content="Add Appointment" Margin="20,3,5,0"/>
+                                    <Button Content="View Schedule" Margin="20,3,5,0"/>
+                                    <!-- People -> Staff -> Options -->
+                                    <Expander x:Name="ScheduleOptionsExpander" Header="Options" FontWeight="Bold" Margin="20,3,0,0">
+                                        <StackPanel>
+                                            <Button Content="1" Margin="20,3,5,0"/>
+                                            <Button Content="2" Margin="20,3,5,0"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </Expander>
+                            <!-- People -> Options -->
+                            
+                        </StackPanel>
+                    </Expander>
 
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <ContentControl Name="MainContent" DockPanel.Dock="Right" >
+                <Grid>
+                    <DataGrid Visibility="Visible" Width="350" Height="250" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,190,174"/>
+                </Grid>
+            </ContentControl>
+        </DockPanel>
     </Grid>
 </Window>

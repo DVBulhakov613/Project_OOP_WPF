@@ -150,6 +150,22 @@ namespace Project_Testing
                 Assert.ThrowsException<ExceptionList>(() => new Hospital(IncorrectHospitalName, location, rooms), "Not checking for name format");
         }
 
+        //[TestMethod]
+        //public void idmanagementtest_temp()
+        //{
+        //    Hospital testHospital = TestUtilities.DefaultHospital_Testing();
+        //    testHospital.AddStaff("cohtea", "cohteua", "gjeai", DateTime.Now.AddYears(-20), new List<StaffRole> { StaffRole.Paramedic });
+        //    testHospital.AddPatient("cohtea", "cohteua", "gjeai", DateTime.Now.AddYears(-20));
+
+        //    Assert.AreNotEqual(testHospital.People[0], testHospital.People[1]);
+
+        //    Hospital testHospital2 = TestUtilities.DefaultHospital_Testing();
+        //    testHospital2.AddStaff("cohtea", "cohteua", "gjeai", DateTime.Now.AddYears(-20), new List<StaffRole> { StaffRole.Paramedic });
+        //    testHospital2.AddPatient("cohtea", "cohteua", "gjeai", DateTime.Now.AddYears(-20));
+
+        //    Assert.AreNotEqual(testHospital2.People[0], testHospital2.People[1]);
+        //}
+
         [DataTestMethod]
         [DynamicData(nameof(TestUtilities.CorrectHospitalNames), typeof(TestUtilities))]
         public void Hospital_Constructor_CorrectNames_Test(string CorrectHospitalName)
