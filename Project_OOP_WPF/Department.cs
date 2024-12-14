@@ -2,20 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Xml.Linq;
 
 namespace Project_OOP_WPF
 {
     public class Department
     {
+        private string _name;
         private Staff _headOfDepartment;
         #region Properties
         // an event made in case of department deletion to simplify the process
         public event Action<Department> DepartmentRemoved;
-        public string Name { get; private set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = ChangeName(value);
+            }
+        }
         public Staff HeadOfDepartment 
         {
             get => _headOfDepartment;
@@ -79,14 +89,16 @@ namespace Project_OOP_WPF
 
         // change the head
         public void ChangeHead(int newHeadID)
-        { 
-            HeadOfDepartment = ParentHospital.ActiveStaff.First(a => a.ID == newHeadID) 
-                ?? throw new ArgumentException("! DEPARTMENT: Staff does not belong to parent hospital."); 
+        {
+            if (HeadOfDepartment != null && HeadOfDepartment.ID == newHeadID)
+                throw new ArgumentException("! DEPARTMENT: Cannot assign Staff to the same position.");
+            try { HeadOfDepartment = ParentHospital.ActiveStaff.First(a => a.ID == newHeadID); }
+            catch (Exception ex) { throw new ArgumentException("! DEPARTMENT: Staff does not belong to parent hospital."); } ; 
         }
 
 
         // change the name
-        public void ChangeName(string newName) 
+        public string ChangeName(string newName) 
         {
             if (string.IsNullOrWhiteSpace(newName))
                 throw new NullReferenceException("! DEPARTMENT: Cannot have an empty name.");
@@ -98,17 +110,18 @@ namespace Project_OOP_WPF
             Regex regex = new(@"^[a-zA-Z '-]+$");
             if (!regex.IsMatch(newName))
                 throw new ArgumentException("! DEPARTMENT: Illegal symbols detected.");
+
+            return newName;
         }
 
 
         public void AddStaff(int ID) 
         {
+            if (ID < 0) throw new ArgumentException("! DEPARTMENT: ID cannot be less than 0.");
             if(DepartmentStaff.ContainsKey(ID))  
                 throw new ArgumentException("! DEPARTMENT: This Department already contains a Staff member with this ID.");
-            DepartmentStaff.Add(
-                ParentHospital.ActiveStaff.First(a => a.ID == ID).ID,
-                ParentHospital.ActiveStaff.First(a => a.ID == ID)
-                    ?? throw new ArgumentException("! DEPARTMENT: Staff does not belong to parent hospital.")); 
+            ParentHospital.ActiveStaff.Select(t => t.ID == ID);
+            DepartmentStaff.Add(ID, ParentHospital.ActiveStaff.First(t => t.ID == ID)); 
         }
 
         public void AddStaff(Staff staff)

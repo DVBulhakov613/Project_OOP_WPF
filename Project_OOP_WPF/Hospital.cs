@@ -36,14 +36,14 @@ namespace Project_OOP_WPF
 
         public List<Department> Departments { get; private set; } = new List<Department>();
         public SortedSet<int> Rooms { get; set; } = new();
-        public List<Person> People { get; set; } // both patients and staff should be stored here
+        public List<Person> People { get; set; } = new(); // both patients and staff should be stored here
         // 
         public List<Patient> Patients => People.OfType<Patient>().ToList();
         public List<Staff> ActiveStaff => People.OfType<Staff>().ToList();
         #endregion
 
         #region Methods
-        public Hospital(string name, string location, SortedSet<int> rooms, List<Department>? departments = null, List<Patient>? patients = null, List<Staff>? activeStaff = null)
+        public Hospital(string name, string location, SortedSet<int> rooms) //, List<Department>? departments = null, List<Patient>? patients = null, List<Staff>? activeStaff = null)
         {
             List<string> exceptions = new();
 
@@ -55,10 +55,34 @@ namespace Project_OOP_WPF
 
             Rooms = rooms;
 
-            Departments = departments ?? new List<Department>();
+            //try
+            //{   foreach (Department dep in departments)
+            //    {
+            //        if (dep.DepartmentRooms.Any(t => !Rooms.Contains(t)))
+            //            throw new ArgumentException($"! HOSPITAL: Department {dep.Name} has rooms that are not part of this Hospital.");
+            //        dep.ParentHospital = this;
+            //    } }
+            //catch (Exception ex) { exceptions.Add(ex.Message); }
 
-            if (patients != null) People.AddRange(patients);
-            if (activeStaff != null) People.AddRange(activeStaff);
+            //if (patients != null)
+            //{
+            //    foreach (Patient pat in patients)
+            //        if (pat.CurrentHospital != this)
+            //            pat.CurrentHospital = this;
+            //        else throw new ArgumentException($"Patient {pat.ID} is already assigned to this Hospital.");
+            //    People.AddRange(patients); 
+            //}
+
+            //try
+            //{   if (activeStaff != null)
+            //    {   foreach (Staff staff in activeStaff)
+            //        {
+            //            if (staff.CurrentHospital != this)
+            //                staff.CurrentHospital = this;
+            //            else throw new ArgumentException($"Staff {staff.ID} is already assigned to this Hospital.");
+            //        }
+            //        People.AddRange(patients); } }
+            //catch (Exception ex) { exceptions.Add(ex.Message); }
 
             if(exceptions.Count > 0)
                 throw new ExceptionList(exceptions);
@@ -116,9 +140,14 @@ namespace Project_OOP_WPF
         }
         public void AddPatient(Patient patient)
         {
+            if (People.Contains(patient))
+                throw new ArgumentException("! HOSPITAL: This patient already exists in the hospital.");
+
+            // Ensure the patient is reassigned to this hospital
             patient.CurrentHospital = this;
             People.Add(patient);
         }
+
         public void TransferPatient(Patient patient, Hospital target)
         {
             if (patient == null) throw new NullReferenceException("! HOSPITAL: Cannot transfer nothing.");

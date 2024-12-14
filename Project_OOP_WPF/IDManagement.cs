@@ -8,10 +8,9 @@ namespace Project_OOP_WPF
 {
     public class IDManagement
     {
+        public IDManagement() { }
         private int nextID = 0;
         private Queue<int> recycledID = new Queue<int>();
-
-        public IDManagement() { }
 
         public int GenerateID() 
         {

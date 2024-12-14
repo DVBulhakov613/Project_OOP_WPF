@@ -3,71 +3,80 @@ namespace Project_Testing
 {
     public static class TestUtilities
     {
-        public static IEnumerable<string>[] CorrectHospitalNames =
-        {
-            ["Cityscape Medical Center"],
-            ["Comfort Haven Clinic"],
-            ["Beyondlimit Wellness"],
-            ["      Cityscape Medical Center"]
-        };
+            // Correct hospital names
+            public static IEnumerable<object[]> CorrectHospitalNames => new List<object[]>
+            {
+                new object[] { "Cityscape Medical Center" },
+                new object[] { "Comfort Haven Clinic" },
+                new object[] { "Beyondlimit Wellness" },
+                new object[] { "      Cityscape Medical Center" },
+                new object[] { "99th Medical Group Nellis Air Force Base" }
+            };
 
-        public static IEnumerable<string>[] IncorrectHospitalNames =
-        {
-            [null],
-            [" "],
-            [""],
-            ["1"],
-            ["abcde12345"]
-        };
+            // Incorrect hospital names
+            public static IEnumerable<object[]> IncorrectHospitalNames => new List<object[]>
+            {
+                new object[] { null },
+                new object[] { " " },
+                new object[] { "" },
+                new object[] { "1" }
+            };
 
-        public static IEnumerable<string>[] CorrectDepartmentNames =
-        {
-            ["Finance"],
-            ["Surgery"],
-            ["ER"],
-            ["Radiology"],
-            ["Laboratory"],
-            ["Psychiatry"],
-            ["      Finance"]
-        };
+            // Correct department names
+            public static IEnumerable<object[]> CorrectDepartmentNames => new List<object[]>
+            {
+                new object[] { "Finance" },
+                new object[] { "Surgery" },
+                new object[] { "ER" },
+                new object[] { "Radiology" },
+                new object[] { "Laboratory" },
+                new object[] { "Psychiatry" },
+                new object[] { "      Finance" }
+            };
 
-        public static IEnumerable<string>[] IncorrectDepartmentNames =
-        {
-            [null],
-            [" "],
-            [""],
-            ["1"],
-            ["abcde12345"],
-        };
+            // Incorrect department names
+            public static IEnumerable<object[]> IncorrectDepartmentNames => new List<object[]>
+            {
+                new object[] { null },
+                new object[] { " " },
+                new object[] { "" },
+                new object[] { "1" },
+                new object[] { "abcde12345" }
+            };
 
-        public static IEnumerable<string>[] CorrectPersonNames =
-        {
-            ["Joe"],
-            ["Jill"],
-            ["Andrey"],
-            ["John"],
-            ["Vasiliy"],
-            ["Robert"],
-            ["Bob"],
-            ["        Joe"]
-        };
+            // Correct person names
+            public static IEnumerable<object[]> CorrectPersonNames => new List<object[]>
+            {
+                new object[] { "Joe" },
+                new object[] { "Jill" },
+                new object[] { "Andrey" },
+                new object[] { "John" },
+                new object[] { "Vasiliy" },
+                new object[] { "Robert" },
+                new object[] { "Bob" },
+                new object[] { "        Joe" }
+            };
 
-        public static IEnumerable<string>[] IncorrectPersonNames =
-        {
-            [null],
-            [" "],
-            [""],
-            ["1"],
-            ["abcde12345"],
-        };
+            // Incorrect person names
+            public static IEnumerable<object[]> IncorrectPersonNames => new List<object[]>
+            {
+                new object[] { null },
+                new object[] { " " },
+                new object[] { "" },
+                new object[] { "1" },
+                new object[] { "abcde12345" }
+            };
 
-        public static IEnumerable<string>[] IncorrectMedicalRecordInfo =
-        {
-            [null],
-            [" "],
-            [""],
-            ["1"]
-        };
+            // Incorrect medical record information
+            public static IEnumerable<object[]> IncorrectMedicalRecordInfo => new List<object[]>
+            {
+                new object[] { null },
+                new object[] { " " },
+                new object[] { "" },
+                new object[] { "1" }
+            };
+        
+
 
         public static void TestCleanup()
         {
@@ -137,9 +146,9 @@ namespace Project_Testing
             SortedSet<int> rooms = new() { 1, 2, 3, 4, 5 };
 
             if (string.IsNullOrWhiteSpace(IncorrectHospitalName))
-                Assert.ThrowsException<NullReferenceException>(() => new Hospital(IncorrectHospitalName, location, rooms), "Not checking for empty strings");
+                Assert.ThrowsException<ExceptionList>(() => new Hospital(IncorrectHospitalName, location, rooms), "Not checking for empty strings");
             else
-                Assert.ThrowsException<ArgumentException>(() => new Hospital(IncorrectHospitalName, location, rooms), "Not checking for name format");
+                Assert.ThrowsException<ExceptionList>(() => new Hospital(IncorrectHospitalName, location, rooms), "Not checking for name format");
         }
 
         [DataTestMethod]
@@ -151,6 +160,7 @@ namespace Project_Testing
             SortedSet<int> rooms = new() { 1, 2, 3, 4, 5 };
 
             new Hospital(CorrectHospitalName, location, rooms); // will throw an exception if it doesnt go through
+            
         }
 
         [TestMethod]
@@ -198,7 +208,7 @@ namespace Project_Testing
         }
 
         [TestMethod]
-        public void Hospital_AddRooms_Test(SortedSet<int> rooms)
+        public void Hospital_AddRooms_Test()
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
@@ -230,13 +240,13 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
 
             // cannot add rooms that do not exist within the hospital
-            Assert.ThrowsException<ArgumentException>(() => testHospital.AddDepartment(CorrectName, new List<int>() { 4, 5 }), "Allowing non-existent rooms");
+            Assert.ThrowsException<ExceptionList>(() => testHospital.AddDepartment(CorrectName, new List<int>() { 4, 5 }), "Allowing non-existent rooms");
 
             testHospital.AddDepartment(CorrectName, new List<int>() { 1, 2, 3 });
             Assert.AreEqual(1, testHospital.Departments.Count);
 
             // must avoid duplicate names
-            Assert.ThrowsException<ArgumentException>(() => testHospital.AddDepartment(CorrectName, new List<int>() { 1, 2, 3 }), "Allowing duplicate names");
+            Assert.ThrowsException<ExceptionList>(() => testHospital.AddDepartment(CorrectName, new List<int>() { 1, 2, 3 }), "Allowing duplicate names");
         }
 
         //[DataTestMethod]
@@ -310,6 +320,7 @@ namespace Project_Testing
         [TestMethod]
         public void Hospital_AddExistingPatient_Test()
         {
+            // Create the first hospital and add a patient
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             testHospital.AddPatient("CorrectName", "CorrectName", "CorrectName", DateTime.Now);
 
@@ -317,16 +328,17 @@ namespace Project_Testing
 
             Patient patient = testHospital.Patients[0];
 
-            // can't add the same patient twice
+            // Ensure duplicate patients cannot be added to the same hospital
             Assert.ThrowsException<ArgumentException>(() => testHospital.AddPatient(patient), "You are allowing duplicate patients");
 
-            // the id should stay the same across all hospitals
+            // Ensure the patient's ID remains the same across hospitals
             int patientID = ((IPerson)testHospital.Patients[0]).ID;
             Hospital testHospital2 = TestUtilities.DefaultHospital_Testing();
             testHospital2.AddPatient(patient);
 
             Assert.AreEqual(patientID, ((IPerson)testHospital2.Patients[0]).ID, "Patient ID must stay the same");
         }
+
 
         [TestMethod]
         public void Hospital_TransferPatient_Test()
@@ -441,7 +453,8 @@ namespace Project_Testing
         public void Department_Constructor_IncorrectNames(string IncorrectNames)
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
-            Assert.ThrowsException<ArgumentException>(() => new Department(testHospital, IncorrectNames, new List<int>() { 1, 2, 3 }), "Not checking format");
+            if(string.IsNullOrWhiteSpace(IncorrectNames)) Assert.ThrowsException<NullReferenceException>(() => new Department(testHospital, IncorrectNames, new List<int>() { 1, 2, 3 }), "Not checking format");
+            else Assert.ThrowsException<ArgumentException>(() => new Department(testHospital, IncorrectNames, new List<int>() { 1, 2, 3 }), "Not checking format");
         }
 
         [TestMethod]
@@ -461,8 +474,10 @@ namespace Project_Testing
             testHospital.AddDepartment("CorrectName", new List<int>() { 1, 2, 3 });
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
             testHospital.AddStaff("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-19), new List<StaffRole>() { StaffRole.Administrator }, new List<Department>() { testHospital.Departments[0] });
+            
+            testHospital.Departments[0].ChangeHead(((IPerson)testHospital.ActiveStaff[0]).ID);
 
-            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(((IPerson)testHospital.ActiveStaff[0]).ID), "Cannot assing staff to a position they are already occupying");
+            Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(((IPerson)testHospital.ActiveStaff[0]).ID), "Cannot assign staff to a position they are already occupying");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(10), "Not checking for value range");
             Assert.ThrowsException<ArgumentException>(() => testHospital.Departments[0].ChangeHead(-1), "Not checking for value range");
         }

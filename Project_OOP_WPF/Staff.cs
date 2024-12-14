@@ -16,7 +16,7 @@ namespace Project_OOP_WPF
             set
             {
                 DateTime minDate = DateTime.Today.AddYears(-60);
-                DateTime maxDate = DateTime.Today.AddYears(-20);
+                DateTime maxDate = DateTime.Today.AddYears(-18);
                 if (value < minDate || value > maxDate)
                     throw new ArgumentException(null, $"! DATE: Value out of range. The date must be between {minDate:dd.MM.yyyy} and {maxDate:dd.MM.yyyy}.");
             }
