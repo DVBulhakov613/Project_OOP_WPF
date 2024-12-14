@@ -103,29 +103,31 @@ namespace Project_OOP_WPF
         {
             List<string> exceptions = new();
 
-            try { RoomID = room; }
-            catch(Exception ex) { exceptions.Add(ex.Message); }
-            
-            try 
-            {
-                if (startTime <= endTime) throw new ArgumentException("! APPOINTMENT: The end time of an appointment must be greater than its start time.");
-                StartTime = startTime; 
-            }
-            catch (Exception ex) { exceptions.Add(ex.Message); }
+            if (startTime >= endTime) exceptions.Add("! APPOINTMENT: The end time of an appointment must be greater than its start time.");
+            else
+                try { StartTime = startTime; }
+                catch(Exception ex) { exceptions.Add(ex.Message); }
 
             try { EndTime = endTime; }
             catch (Exception ex) { exceptions.Add(ex.Message); }
 
-            try {
-                if (staff == null || staff.Count == 0) 
-                    throw new NullReferenceException("! APPOINTMENT: Appointments must have at least one staff member present.");
-                Staff = staff; }
+            try 
+            { 
+                Staff = staff;
+                if (staff.Any(t => t.CurrentHospital != appointee.CurrentHospital))
+                    throw new ArgumentException("! APPOINTMENT: Cannot assign appointments across different Hospitals.");
+            }
             catch (Exception ex) { exceptions.Add(ex.Message); }
 
-            try {
-                if (appointee == null) 
-                    throw new NullReferenceException("! APPOINTMENT: Appointments must have a patient present.");
-                Appointee = appointee; }
+            try 
+            { 
+                Appointee = appointee;
+                if (!appointee.CurrentHospital.Rooms.Contains(room))
+                    throw new ArgumentException("! APPOINTMENT: Cannot assign appointments to rooms that do not exist within the current Hospital.");
+            }
+            catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            try { RoomID = room; }
             catch (Exception ex) { exceptions.Add(ex.Message); }
 
             if (exceptions.Count > 0)

@@ -38,6 +38,7 @@ namespace Project_OOP_WPF
                 Appointment app = new Appointment(room, startTime, endTime, staffInvolved, appointee, purpose);
                 foreach (Staff staff in staffInvolved)
                     staff.Schedule.AddAppointment(app);
+                appointee.Schedule.AddAppointment(app);
             }
             catch (Exception ex) { exceptions.Add(ex.Message); }
             if (exceptions.Count > 0) throw new ExceptionList(exceptions);

@@ -19,10 +19,11 @@ namespace Project_OOP_WPF
                 DateTime maxDate = DateTime.Today.AddYears(-18);
                 if (value < minDate || value > maxDate)
                     throw new ArgumentException(null, $"! DATE: Value out of range. The date must be between {minDate:dd.MM.yyyy} and {maxDate:dd.MM.yyyy}.");
+                _birthDate = value;
             }
         }
         private List<StaffRole> _roles;
-        private List<Department> _departments;
+        //private List<Department> _departments;
 
         #region Properties - Person info
         public static IDManagement IDManager = new IDManagement();
@@ -32,12 +33,11 @@ namespace Project_OOP_WPF
 
         #region Properties - Staff-specific properties
         public List<StaffRole> Roles { get; set; }
-        public List<Department> Departments { get; set; } = new();
-        public override AppointmentSchedule Schedule { get; set; } = new AppointmentSchedule();
+        //public List<Department> Departments { get; set; } = new();
         #endregion
 
         #region Methods - Staff-specific
-        public Staff(string firstName, string middleName, string lastName, DateTime birthDate, List<StaffRole> roles, Hospital hospital, List<Department>? departments = null)
+        public Staff(string firstName, string middleName, string lastName, DateTime birthDate, List<StaffRole> roles, Hospital hospital)//, List<Department>? departments = null)
             :base (firstName, middleName, lastName, hospital)
         {
             List<string> exceptions = new();
@@ -48,9 +48,9 @@ namespace Project_OOP_WPF
             try { Roles = roles.ToList(); }
             catch (Exception ex) { exceptions.Add(ex.Message); }
             
-            if(departments != null)
-                try { Departments = departments.ToList(); }
-                catch (Exception ex) { exceptions.Add(ex.Message); }
+            //if(departments != null)
+            //    try { Departments = departments.ToList(); }
+            //    catch (Exception ex) { exceptions.Add(ex.Message); }
 
             if (exceptions.Count > 0)
                 throw new ExceptionList(exceptions);
@@ -58,11 +58,11 @@ namespace Project_OOP_WPF
             ID = IDManager.GenerateID();
         }
 
-        public void OnDepartmentRemoval(Department department)
-        {
+        //public void OnDepartmentRemoval(Department department)
+        //{
             
-            Departments?.Remove(department);
-        }
+        //    Departments?.Remove(department);
+        //}
         #endregion
 
         #region Methods - Inherited from the Person interface

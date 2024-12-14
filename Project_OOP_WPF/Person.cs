@@ -22,7 +22,8 @@ namespace Project_OOP_WPF
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new FormatException("! NAME: The input string is empty.");
-                if (!Regex.IsMatch(value, @"^[a-zA-Z]+$"))
+                value = value.Trim();
+                if (!Regex.IsMatch(value, @"^[a-zA-Z ']+$"))
                     throw new FormatException("! NAME: The input string is using symbols that do not belong to the latin alphabet.");
                 _firstName = value;
             }
@@ -34,7 +35,8 @@ namespace Project_OOP_WPF
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new FormatException("! NAME: The input string is empty.");
-                if (!Regex.IsMatch(value, @"^[a-zA-Z]+$"))
+                value = value.Trim();
+                if (!Regex.IsMatch(value, @"^[a-zA-Z ']+$"))
                     throw new FormatException("! NAME: The input string is using symbols that do not belong to the latin alphabet.");
                 _middleName = value;
             }
@@ -46,7 +48,8 @@ namespace Project_OOP_WPF
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new FormatException("! NAME: The input string is empty.");
-                if (!Regex.IsMatch(value, @"^[a-zA-Z]+$"))
+                value = value.Trim();
+                if (!Regex.IsMatch(value, @"^[a-zA-Z ']+$"))
                     throw new FormatException("! NAME: The input string is using symbols that do not belong to the latin alphabet.");
                 _lastName = value;
             }
@@ -63,7 +66,7 @@ namespace Project_OOP_WPF
             }
         }
         public abstract Hospital CurrentHospital { get; set; }
-        public abstract AppointmentSchedule Schedule { get; set; }
+        public virtual AppointmentSchedule Schedule { get; set; } = new();
 
         public Person(string firstName, string middleName, string lastName, Hospital hospital)
         {
