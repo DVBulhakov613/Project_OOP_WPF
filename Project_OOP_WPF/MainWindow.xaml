@@ -6,17 +6,17 @@
         xmlns:local="clr-namespace:Project_OOP_WPF_WPF"
         xmlns:views="clr-namespace:Project_OOP_WPF.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
         <DockPanel>
             <!-- Menu -->
             <ScrollViewer DockPanel.Dock="Left" Width="250" Background="AliceBlue">
                 <StackPanel>
                     <!-- People tab -->
-                    <Expander Name="HospitalExpander" Header="Hospital Management" FontWeight="Bold">
+                    <Expander Name="HospitalExpander" Header="Hospital Management" FontWeight="Bold" IsExpanded="True">
                         <StackPanel>
-                            <Button Name="NewHospital" Content="New Hospital" Margin="20,3,5,0" Click="NewHospital_Click"/>
-                            <Button Name="ViewHospitals" Content="View Hospitals" Margin="20,3,5,0" Click="ViewHospitals_Click"/>
+                            <Button Name="HospitalManip" Content="Hospital window" Margin="20,3,5,0" Click="HospitalWindow_Click"/>
+                            <Button Name="Refresh" Content="Refresh" Margin="20,3,5,0" Click="ViewHospitals_Click"/>
                             <!-- People -> Patients-->
                             <TextBlock Text="Everything related to people." Margin="20, 0, 0, 0"/>
                             <Expander Name="PatientsExpander" Header="Patients" FontWeight="Bold" Margin="20,3,5,0">
@@ -55,7 +55,7 @@
                             </Expander>
                             <Expander x:Name="ScheduleExpander" Header="Schedule" FontWeight="Bold" Margin="20,3,5,0">
                                 <StackPanel>
-                                    <Button Content="Add Appointment" Margin="20,3,5,0"/>
+                                    <Button Name="AddAppointment" Content="Add Appointment" Margin="20,3,5,0" Click="AddAppointment_Click"/>
                                     <Button Content="View Schedule" Margin="20,3,5,0"/>
                                     <!-- People -> Staff -> Options -->
                                     <Expander x:Name="ScheduleOptionsExpander" Header="Options" FontWeight="Bold" Margin="20,3,0,0">
@@ -66,18 +66,14 @@
                                     </Expander>
                                 </StackPanel>
                             </Expander>
-                            <!-- People -> Options -->
-                            
                         </StackPanel>
                     </Expander>
-
-
                 </StackPanel>
             </ScrollViewer>
 
             <ContentControl Name="MainContent" DockPanel.Dock="Right" >
-                <Grid>
-                    <DataGrid Visibility="Visible" Width="350" Height="250" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,190,174"/>
+                <Grid Background="LightBlue">
+                    <TextBlock Text="MainWindow layout" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
             </ContentControl>
         </DockPanel>

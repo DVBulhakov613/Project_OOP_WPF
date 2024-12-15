@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Project_OOP_WPF.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Button Content="CREATE APPOINTMENT????" FontSize="40" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,102,0,0" VerticalAlignment="Top" Height="199" Width="572"/>
-
+    <Grid Background="DodgerBlue">
+        <TextBlock Text="Appointments Layout" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>

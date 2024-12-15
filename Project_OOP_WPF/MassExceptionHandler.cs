@@ -14,7 +14,7 @@ namespace Project_OOP_WPF
             public ExceptionList(List<string> errors)
             { Errors = errors; }
 
-            public override string ToString()
-            { return string.Join("\n", Errors); }
+            public override string Message
+            { get => string.Join("\n", Errors); }
         }
 }
