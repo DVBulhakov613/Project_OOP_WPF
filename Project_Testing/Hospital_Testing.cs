@@ -80,7 +80,7 @@ namespace Project_Testing
         public static void TestCleanup()
         {
             Staff.IDManager = new IDManagement();
-            Patient.IDManager = new IDManagement();
+            Person.IDManager = new IDManagement();
         }
 
 
@@ -745,7 +745,7 @@ namespace Project_Testing
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             Patient testPatient = TestUtilities.DefaultPatient_Testing(testHospital);
 
-            DateTime testDate = DateTime.Now;
+            DateTime testDate = DateTime.Today;
             string result = testPatient.GenerateCompositeID(testDate);
             string expected = $"0-{testDate.Day:D2}:{testDate.Month:D2}:{testDate.Year:D2}";
             Assert.AreEqual(expected, result, "Incorrect ID format");
@@ -753,9 +753,11 @@ namespace Project_Testing
             result = testPatient.GenerateCompositeID(testDate);
             expected = $"1-{testDate.Day:D2}:{testDate.Month:D2}:{testDate.Year:D2}";
 
-            testDate = DateTime.Now;
+            Assert.AreEqual(expected, result, "Incorrect ID numeration");
+
+            testDate = DateTime.Today.AddHours(5);
             result = testPatient.GenerateCompositeID(testDate);
-            expected = $"0-{testDate.Day:D2}:{testDate.Month:D2}:{testDate.Year:D2}";
+            expected = $"2-{testDate.Day:D2}:{testDate.Month:D2}:{testDate.Year:D2}";
 
             Assert.AreEqual(expected, result, "Incorrect ID numeration");
         }

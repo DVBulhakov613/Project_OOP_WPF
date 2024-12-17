@@ -32,7 +32,16 @@ namespace Project_OOP_WPF
         #endregion
 
         #region Properties - Staff-specific properties
-        public List<StaffRole> Roles { get; set; }
+        public List<StaffRole> Roles 
+        {
+            get => _roles; 
+            set
+            {
+                if (value == null || value.Count == 0)
+                    throw new ArgumentException("! STAFF: Any staff member must have at least one role.");
+                _roles = value;
+            }
+        }
         //public List<Department> Departments { get; set; } = new();
         #endregion
 

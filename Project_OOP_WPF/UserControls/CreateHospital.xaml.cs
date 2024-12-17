@@ -91,10 +91,10 @@ namespace Project_OOP_WPF.UserControls
             if (HospitalDataGrid.SelectedItem is Hospital selectedHospital)
             {
                 _mainWindow._selectedHospital = selectedHospital;
-                HospitalDataGrid.Items.Refresh();
+                MessageBox.Show($"Hospital {selectedHospital.ID} has been selected.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
-                MessageBox.Show("Please select a hospital to remove.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Click on a row on the table to select a Hospital.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }
