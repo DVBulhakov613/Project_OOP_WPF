@@ -86,8 +86,6 @@ namespace Project_OOP_WPF
 
             if (exceptions.Count > 0)
                 throw new ExceptionList(exceptions);
-
-            ID = IDManager.GenerateID();
         }
 
         public virtual void ChangeInfo(string? firstName = null, string? middleName = null, string? lastName = null, DateTime? birthDate = null) 

@@ -15,18 +15,19 @@
                     <!-- People tab -->
                     <Expander Name="HospitalExpander" Header="Hospital Management" FontWeight="Bold" IsExpanded="True">
                         <StackPanel>
-                            <TextBlock Name="CurrentHospital" Text="Current Hospital: None" Margin="20,3,5,0"/>
+                            <TextBlock Name="CurrentHospital" Text="Selected Hospital: None" Margin="20,3,5,0"/>
                             <Button Name="HospitalManip" Content="Hospital window" Margin="20,3,5,0" Click="HospitalWindow_Click"/>
                             <!-- People -> Patients-->
                             <TextBlock Text="Everything related to people." Margin="20, 0, 0, 0"/>
                             <Expander Name="PatientsExpander" Header="Patients" FontWeight="Bold" Margin="20,3,5,0">
                                 <StackPanel>
+                                    <TextBlock Name="CurrentPatient" Text="Selected Patient: None" Margin="20,3,5,0"/>
                                     <Button Name="Patients_AddPatientsButton" Content="Patient Menu" Margin="20,3,5,0" Click="Patients_AddPatientsButton_Click"/>
                                     <Button Name="Patients_ViewPatients" Content="View Patients" Margin="20,3,5,0" Click="Patients_ViewPatients_Click"/>
                                     <!-- People -> Patients -> Medical Records -->
                                     <Expander Header="Medical Records" FontWeight="Bold" Margin="20,3,5,0">
                                         <StackPanel>
-                                            <Button Content="1" Margin="20,3,5,0"/>
+                                            <Button Name="MedicalRecord_AddMedicalRecordsButton" Content="Medical Record Menu" Margin="20,3,5,0" Click="MedicalRecord_AddMedicalRecordsButton_Click"/>
                                             <Button Content="2" Margin="20,3,5,0"/>
                                         </StackPanel>
                                     </Expander>
@@ -42,7 +43,7 @@
                             <!-- People -> Staff -->
                             <Expander Name="StaffExpander" Header="Staff" FontWeight="Bold" Margin="20,3,5,0">
                                 <StackPanel>
-                                    <Button Content="Add Staff" Margin="20,3,5,0"/>
+                                    <Button Content="Add Staff" Margin="20,3,5,0" Click="AddStaffButton_Click"/>
                                     <Button Content="View Staff" Margin="20,3,5,0"/>
                                     <!-- People -> Staff -> Options -->
                                     <Expander Name="StaffOptionsExpander" Header="Options" FontWeight="Bold" Margin="20,3,0,0">

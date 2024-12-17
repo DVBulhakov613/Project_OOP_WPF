@@ -15,11 +15,11 @@
             <!-- Disabled due to lacking functionality as of now -->
             <!--<Button Name="SaveMedicalRecordTableButton" Content="Save Medical Records" HorizontalAlignment="Left" Margin="345,361,0,0" VerticalAlignment="Top" Height="23" Width="185" IsEnabled="False"/>-->
 
-            <Grid DockPanel.Dock="Right" Width="558" Background="GhostWhite">
+            <Grid DockPanel.Dock="Right" Width="558" Height="450" Background="GhostWhite">
                 <TabControl Name="ListsTabControl" Margin="10,10,10,78">
                     <TabItem Header="Current Medical Records">
                         <Grid>
-                            <DataGrid x:Name="MedicalRecordDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column">
+                            <DataGrid x:Name="MedicalRecordDataGrid" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" HeadersVisibility="Column">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Record ID" Binding="{Binding ID}" />
 
@@ -115,8 +115,8 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <Button Content="Save Medical Record" Width="128" Click="SaveMedicalRecord_Click" Margin="420,395,10,15"/>
-                <DatePicker DateValidationError="AddPatient_DateOfBirth_DateValidationError" Name="AddPatient_DateOfBirth" HorizontalAlignment="Left" Margin="279,395,0,0" VerticalAlignment="Top" Height="40" Width="105" Loaded="AddPatient_DateOfBirth_Loaded"/>
+                <Button Content="Save Medical Record" Click="SaveMedicalRecord_Click" Margin="10,377,420,33"/>
+                <DatePicker Name="AddMedicalRecord_Date" HorizontalAlignment="Left" Margin="143,377,0,33" Height="40" Width="105" Loaded="AddMedicalError_Date_Loaded"/>
             </Grid>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="240"/>
         </DockPanel>

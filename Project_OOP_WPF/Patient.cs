@@ -50,6 +50,7 @@ namespace Project_OOP_WPF
 
             if (exceptions.Count > 0)
                 throw new ExceptionList(exceptions);
+            ID = IDManager.GenerateID();
         }
 
         public string GenerateCompositeID(DateTime? time = null)
@@ -59,7 +60,7 @@ namespace Project_OOP_WPF
 
             if (!MedicalHistory.Any())
             {
-                return $"0-{datePart}";
+                return $"{nextID++}-{datePart}";
             }
 
             string lastID = MedicalHistory.Last().ID;

@@ -24,11 +24,11 @@ namespace Project_OOP_WPF.UserControls
         private List<string> _treatments = new();
         private List<string> _medications = new();
         private DateTime? _date = null;
-        private Patient _PatientReference;
+        private Patient _patientReference;
         public CreateMedicalRecords(Patient patientReference)
         {
             InitializeComponent();
-            _PatientReference = patientReference;
+            _patientReference = patientReference;
 
             MedicalRecordDataGrid.ItemsSource = patientReference.MedicalHistory;
         }
@@ -36,9 +36,28 @@ namespace Project_OOP_WPF.UserControls
         public CreateMedicalRecords(Patient patientReference, DateTime? date)
         {
             InitializeComponent();
-            _PatientReference = patientReference;
+            _patientReference = patientReference;
             _date = date;
             MedicalRecordDataGrid.ItemsSource = patientReference.MedicalHistory;
+        }
+
+        private void AddMedicalError_Date_Loaded(object sender, RoutedEventArgs e)
+        {
+            AddMedicalRecord_Date.BlackoutDates.Add(new CalendarDateRange(DateTime.Today.AddDays(1), DateTime.MaxValue));
+        }
+
+        private void AddMedicalError_Date_DateValidationError(object sender, DatePickerDateValidationErrorEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                MessageBox.Show("! MEDICAL RECORD: Invalid date format. Please enter a valid date.", "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else if (e.Text != null)
+            {
+                MessageBox.Show($"! MEDICAL RECORD: The date '{e.Text}' is not allowed. Please select a valid date.", "Date Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            e.ThrowException = false;
         }
 
         // tab methods: diagnoses
@@ -47,9 +66,14 @@ namespace Project_OOP_WPF.UserControls
             if (!string.IsNullOrWhiteSpace(DiagnosesInput.Text))
             {
                 _diagnoses.Add(DiagnosesInput.Text.Trim());
-                DiagnosesListBox.Items.Refresh();
+
+                DiagnosesListBox.ItemsSource = null;
+                DiagnosesListBox.ItemsSource = _diagnoses;
+
                 DiagnosesInput.Clear();
+                DiagnosesInput.Focus();
             }
+            else MessageBox.Show("! MEDICAL RECORD: Cannot have an empty field.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void RemoveDiagnoses_Click(object sender, RoutedEventArgs e)
@@ -67,9 +91,14 @@ namespace Project_OOP_WPF.UserControls
             if (!string.IsNullOrWhiteSpace(TreatmentsInput.Text))
             {
                 _treatments.Add(TreatmentsInput.Text.Trim());
-                TreatmentsListBox.Items.Refresh();
+
+                TreatmentsListBox.ItemsSource = null;
+                TreatmentsListBox.ItemsSource = _treatments;
+
                 TreatmentsInput.Clear();
+                TreatmentsInput.Focus();
             }
+            else MessageBox.Show("! MEDICAL RECORD: Cannot have an empty field.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void RemoveTreatment_Click(object sender, RoutedEventArgs e)
@@ -87,9 +116,14 @@ namespace Project_OOP_WPF.UserControls
             if (!string.IsNullOrWhiteSpace(MedicationsInput.Text))
             {
                 _medications.Add(MedicationsInput.Text.Trim());
-                MedicationsListBox.Items.Refresh();
+
+                MedicationsListBox.ItemsSource = null;
+                MedicationsListBox.ItemsSource = _medications;
+
                 MedicationsInput.Clear();
+                MedicationsInput.Focus();
             }
+            else MessageBox.Show("! MEDICAL RECORD: Cannot have an empty field.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void RemoveMedication_Click(object sender, RoutedEventArgs e)
@@ -104,9 +138,31 @@ namespace Project_OOP_WPF.UserControls
         // Save the MedicalRecord
         private void SaveMedicalRecord_Click(object sender, RoutedEventArgs e)
         {
-            _PatientReference.AddMedicalRecord(_diagnoses, _treatments, _medications);
+            DateTime date;
+            if (AddMedicalRecord_Date.SelectedDate.HasValue)
+            {
+                date = AddMedicalRecord_Date.SelectedDate.Value;
+            }
+            else
+                throw new ArgumentException("! PATIENT: Must always have a birthday.");
 
-            MessageBox.Show("Medical Record Saved Successfully!");
+            _patientReference.AddMedicalRecord(_diagnoses, _treatments, _medications, date);
+            MedicalRecordDataGrid.ItemsSource = null;
+            MedicalRecordDataGrid.ItemsSource = _patientReference.MedicalHistory;
+
+            ResetMedicalRecordCreation();
+
+            MessageBox.Show("Medical Record Saved Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ResetMedicalRecordCreation()
+        {
+            _diagnoses.Clear();
+            _treatments.Clear();
+            _medications.Clear();
+            DiagnosesListBox.ItemsSource = null;
+            TreatmentsListBox.ItemsSource = null;
+            MedicationsListBox.ItemsSource = null;
         }
     }
 }

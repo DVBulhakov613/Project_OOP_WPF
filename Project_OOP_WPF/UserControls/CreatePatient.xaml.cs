@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,8 @@ namespace Project_OOP_WPF.UserControls
             InitializeComponent();
             _mainWindow = mainWindow;
 
-            PatientDataGrid.ItemsSource = _mainWindow.Hospitals;
-            this._selectedHospital = selectedHospital;
+            _selectedHospital = selectedHospital;
+            PatientDataGrid.ItemsSource = selectedHospital.Patients;
         }
 
         private void AddPatient_DateOfBirth_Loaded(object sender, RoutedEventArgs e)
@@ -70,9 +71,23 @@ namespace Project_OOP_WPF.UserControls
                 Patient patient = new Patient(firstName, middleName, lastName, birthDay, _selectedHospital);
                 //if (AddPatient_HasRecordsCheckbox.IsChecked == true) { }
 
-                _selectedHospital.AddPatient(firstName, middleName, lastName, birthDay);
+                _selectedHospital.AddPatient(patient);
+                PatientDataGrid.ItemsSource = null;
+                PatientDataGrid.ItemsSource = _selectedHospital.Patients;
+                PatientDataGrid.Items.Refresh();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Errors encountered", MessageBoxButton.OK, MessageBoxImage.Error); }
+        }
+
+        private void SelectPatientButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PatientDataGrid.SelectedItem is Patient selectedPatient)
+            {
+                _mainWindow._selectedPatient = selectedPatient;
+                MessageBox.Show($"Patient {selectedPatient.ID} has been selected.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+                MessageBox.Show("Click on a row on the table to select a Patient.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }

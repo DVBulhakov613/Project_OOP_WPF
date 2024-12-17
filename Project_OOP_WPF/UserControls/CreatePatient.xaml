@@ -9,15 +9,17 @@
     <Grid Background="Gray">
         <DockPanel LastChildFill="False">
             <Grid DockPanel.Dock="Right" Width="558" Background="GhostWhite">
-                <DataGrid Name="PatientDataGrid" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,15,0,135" HorizontalAlignment="Left" Width="324">
+                <DataGrid Name="PatientDataGrid" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" Margin="10,15,0,135" HorizontalAlignment="Left" Width="324">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="25"/>
                         <DataGridTextColumn Header="F. Name" Binding="{Binding FirstName}" Width="70"/>
                         <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
                         <DataGridTextColumn Header="M. Name" Binding="{Binding MiddleName}" Width="70"/>
+                        <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy\}}" Width="70"/>
                         <DataGridTextColumn Header="M. Records" Binding="{Binding MedicalHistory.Count}" Width="70"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock HorizontalAlignment="Left" Margin="345,16,0,0" FontSize="16" Text="New hospital parameters:" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,16,0,0" FontSize="16" Text="New Patient parameters:" VerticalAlignment="Top"/>
 
                 <TextBox Name="AddPatient_FirstName" HorizontalAlignment="Left" Margin="425,41,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="105"/>
                 <TextBlock HorizontalAlignment="Left" Margin="345,42,0,0" Text="First Name:" VerticalAlignment="Top" Width="60"/>
@@ -33,8 +35,8 @@
                 <!-- <Button Name="RemovePatientButton" Content="Remove Hospital" HorizontalAlignment="Left" Margin="345,223,0,0" VerticalAlignment="Top" Height="23" Width="185"/> -->
                 <!-- Disabled due to lacking functionality as of now -->
                 <Button Name="SavePatientTableButton" Content="Save Patients" HorizontalAlignment="Left" Margin="345,292,0,0" Background="Gray" IsEnabled="False" VerticalAlignment="Top" Height="23" Width="185"/>
-                <Button Name="SelectPatientButton" Content="Select Patient" HorizontalAlignment="Left" Margin="345,221,0,0" VerticalAlignment="Top" Height="22" Width="185"/>
-                <CheckBox Name="AddPatient_HasRecordsCheckbox" Content="Has medical records?" HorizontalAlignment="Left" Margin="345,145,0,0" VerticalAlignment="Top"/>
+                <Button Name="SelectPatientButton" Content="Select Patient" HorizontalAlignment="Left" Margin="345,221,0,0" VerticalAlignment="Top" Height="22" Width="185" Click="SelectPatientButton_Click"/>
+                <CheckBox IsEnabled="False" Name="AddPatient_HasRecordsCheckbox" Content="Has medical records?" HorizontalAlignment="Left" Margin="345,145,0,0" VerticalAlignment="Top"/>
                 <DatePicker DateValidationError="AddPatient_DateOfBirth_DateValidationError" Name="AddPatient_DateOfBirth" HorizontalAlignment="Left" Margin="425,106,0,0" VerticalAlignment="Top" Height="23" Width="105" Loaded="AddPatient_DateOfBirth_Loaded"/>
                 <TextBlock HorizontalAlignment="Left" Margin="345,110,0,0" Text="Date of birth:" VerticalAlignment="Top" Width="70"/>
             </Grid>

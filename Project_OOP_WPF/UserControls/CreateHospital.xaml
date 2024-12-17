@@ -10,8 +10,9 @@
 
         <DockPanel LastChildFill="False">
             <Grid DockPanel.Dock="Right" Width="558" Background="GhostWhite">
-                <DataGrid Name="HospitalDataGrid" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,15,0,135" HorizontalAlignment="Left" Width="324">
+                <DataGrid Name="HospitalDataGrid" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" Margin="10,15,0,135" HorizontalAlignment="Left" Width="324">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="30"/>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="70"/>
                         <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="80"/>
                         <DataGridTextColumn Header="Rooms" Binding="{Binding Rooms.Count}" Width="55"/>
@@ -27,15 +28,15 @@
                 <TextBox Name="AddHospital_Location" HorizontalAlignment="Left" Margin="410,62,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="120"/>
                 <TextBlock HorizontalAlignment="Left" Margin="345,63,0,0" Text="Location:" VerticalAlignment="Top" Width="60"/>
 
-                <TextBox Name="AddHospital_Rooms" HorizontalAlignment="Left" Margin="410,83,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="120"/>
-                <TextBlock HorizontalAlignment="Left" Margin="345,84,0,0" Text="Rooms:" VerticalAlignment="Top" Width="60"/>
-                <TextBlock HorizontalAlignment="Left" Margin="345,105,0,0" FontSize="10" Text="! Separate the Rooms with a comma." VerticalAlignment="Top" Width="185"/>
+                <TextBox Name="AddHospital_Rooms" HorizontalAlignment="Left" Margin="410,97,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,98,0,0" Text="Rooms:" VerticalAlignment="Top" Width="60"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,119,0,0" FontSize="10" Text="! Separate the Rooms with a comma." VerticalAlignment="Top" Width="185"/>
 
                 <Button Name="AddHospitalButton" Content="Add Hospital" HorizontalAlignment="Left" Margin="345,195,0,0" VerticalAlignment="Top" Height="23" Width="185" Click="AddHospitalButton_Click"/>
                 <Button Name="RemoveHospitalButton" Content="Remove Hospital" HorizontalAlignment="Left" Margin="345,223,0,0" VerticalAlignment="Top" Height="23" Width="185" Click="RemoveHospitalButton_Click"/>
                 <!-- Disabled due to lacking functionality as of now -->
                 <Button Name="SaveHospitalTableButton" Content="Save Hospitals" HorizontalAlignment="Left" Margin="345,251,0,0" Background="Gray" IsEnabled="False" VerticalAlignment="Top" Height="23" Width="185"/>
-                <Button Name="SelectHospitalButton" Content="Select Hospital" HorizontalAlignment="Left" Margin="345,154,0,0" VerticalAlignment="Top" Height="22" Width="185" Click="SelectHospitalButton_Click"/>
+                <Button Name="SelectHospitalButton" Content="Select Hospital" HorizontalAlignment="Left" Margin="345,162,0,0" VerticalAlignment="Top" Height="22" Width="185" Click="SelectHospitalButton_Click"/>
             </Grid>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="240"/>
         </DockPanel>

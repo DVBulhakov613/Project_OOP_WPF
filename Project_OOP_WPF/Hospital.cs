@@ -159,7 +159,6 @@ namespace Project_OOP_WPF
             if (People.Contains(patient))
                 throw new ArgumentException("! HOSPITAL: This patient already exists in the hospital.");
 
-            // Ensure the patient is reassigned to this hospital
             patient.CurrentHospital = this;
             People.Add(patient);
         }
@@ -181,6 +180,15 @@ namespace Project_OOP_WPF
         {
             if (roles.Count == 0) throw new NullReferenceException("! HOSPITAL: Staff must always have roles!");
             People.Add(new Staff(firstName, middleName, lastName, birthDate, roles, this));//, departments));
+        }
+
+        public void AddStaff(Staff staff)//, List<Department>? departments = null)
+        {
+            if (People.Contains(staff))
+                throw new ArgumentException("! HOSPITAL: This patient already exists in the hospital.");
+
+            staff.CurrentHospital = this;
+            People.Add(staff);
         }
 
         public void RemovePerson(int ID)

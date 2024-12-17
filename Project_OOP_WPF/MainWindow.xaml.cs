@@ -19,6 +19,8 @@ namespace Project_OOP_WPF
     public partial class MainWindow : Window
     {
         public Hospital _hospitalReference;
+        public Patient _patientReference;
+        public Staff _staffReference;
 
         public Hospital _selectedHospital 
         {
@@ -27,6 +29,24 @@ namespace Project_OOP_WPF
             {
                 _hospitalReference = value;
                 CurrentHospital.Text = $"Current Hospital: {value.ID} | {value.Name}";
+            }
+        }
+        public Patient _selectedPatient
+        {
+            get => _patientReference;
+            set
+            {
+                _patientReference = value;
+                CurrentPatient.Text = $"Current Patient: {value.ID} | {value.GetFullName()}";
+            }
+        }
+        public Staff _selectedStaff
+        {
+            get => _staffReference;
+            set
+            {
+                _staffReference = value;
+                CurrentPatient.Text = $"Current Person: {value.ID} | {value.GetFullName()}";
             }
         }
         public ObservableCollection<Hospital> Hospitals = new();
@@ -55,6 +75,16 @@ namespace Project_OOP_WPF
         private void AddAppointment_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Content = new CreateAppointments();
+        }
+
+        private void MedicalRecord_AddMedicalRecordsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new CreateMedicalRecords(_patientReference);
+        }
+
+        private void AddStaffButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new CreateStaff(this, _selectedHospital);
         }
     }
 }
