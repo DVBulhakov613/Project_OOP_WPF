@@ -48,10 +48,6 @@ namespace Project_OOP_WPF
         // 
         public List<Patient> Patients => People.OfType<Patient>().ToList();
         public List<Staff> ActiveStaff => People.OfType<Staff>().ToList();
-
-        public int TotalRooms => Rooms?.Count ?? 0;
-        public int TotalStaff => ActiveStaff?.Count ?? 0;
-        public int TotalPatients => Patients?.Count ?? 0;
         #endregion
 
         #region Methods

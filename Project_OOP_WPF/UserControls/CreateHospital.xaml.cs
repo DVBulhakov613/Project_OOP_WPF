@@ -27,7 +27,6 @@ namespace Project_OOP_WPF.UserControls
             InitializeComponent();
             _mainWindow = mainWindow;
 
-            // Bind DataGrid to the hospital list
             HospitalDataGrid.ItemsSource = _mainWindow.Hospitals;
         }
 
@@ -85,6 +84,17 @@ namespace Project_OOP_WPF.UserControls
             {
                 MessageBox.Show("Please select a hospital to remove.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void SelectHospitalButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (HospitalDataGrid.SelectedItem is Hospital selectedHospital)
+            {
+                _mainWindow._selectedHospital = selectedHospital;
+                HospitalDataGrid.Items.Refresh();
+            }
+            else
+                MessageBox.Show("Please select a hospital to remove.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 }

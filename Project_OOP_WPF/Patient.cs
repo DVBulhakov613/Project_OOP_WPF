@@ -12,10 +12,8 @@ namespace Project_OOP_WPF
 {
     public class Patient : Person
     {
-        private DateTime _birthDate;
 
         #region Properties - Person info
-        public static IDManagement IDManager = new();
 
         public override DateTime BirthDate
         {

@@ -18,6 +18,17 @@ namespace Project_OOP_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Hospital _hospitalReference;
+
+        public Hospital _selectedHospital 
+        {
+            get => _hospitalReference; 
+            set 
+            {
+                _hospitalReference = value;
+                CurrentHospital.Text = $"Current Hospital: {value.ID} | {value.Name}";
+            }
+        }
         public ObservableCollection<Hospital> Hospitals = new();
 
         public MainWindow()
@@ -31,14 +42,9 @@ namespace Project_OOP_WPF
             MainContent.Content = new CreateHospital(this);
         }
 
-        private void ViewHospitals_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new CreateHospital(this);
-        }
-
         private void Patients_AddPatientsButton_Click(object sender, RoutedEventArgs e)
         {
-            //MainContent.Content = new AddPatientView();
+            MainContent.Content = new CreatePatient(this, _selectedHospital);
         }
 
         private void Patients_ViewPatients_Click(object sender, RoutedEventArgs e)

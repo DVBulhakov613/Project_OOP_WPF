@@ -15,13 +15,13 @@
                     <!-- People tab -->
                     <Expander Name="HospitalExpander" Header="Hospital Management" FontWeight="Bold" IsExpanded="True">
                         <StackPanel>
+                            <TextBlock Name="CurrentHospital" Text="Current Hospital: None" Margin="20,3,5,0"/>
                             <Button Name="HospitalManip" Content="Hospital window" Margin="20,3,5,0" Click="HospitalWindow_Click"/>
-                            <Button Name="Refresh" Content="Refresh" Margin="20,3,5,0" Click="ViewHospitals_Click"/>
                             <!-- People -> Patients-->
                             <TextBlock Text="Everything related to people." Margin="20, 0, 0, 0"/>
                             <Expander Name="PatientsExpander" Header="Patients" FontWeight="Bold" Margin="20,3,5,0">
                                 <StackPanel>
-                                    <Button Name="Patients_AddPatientsButton" Content="Add Patient" Margin="20,3,5,0" Click="Patients_AddPatientsButton_Click"/>
+                                    <Button Name="Patients_AddPatientsButton" Content="Patient Menu" Margin="20,3,5,0" Click="Patients_AddPatientsButton_Click"/>
                                     <Button Name="Patients_ViewPatients" Content="View Patients" Margin="20,3,5,0" Click="Patients_ViewPatients_Click"/>
                                     <!-- People -> Patients -> Medical Records -->
                                     <Expander Header="Medical Records" FontWeight="Bold" Margin="20,3,5,0">
