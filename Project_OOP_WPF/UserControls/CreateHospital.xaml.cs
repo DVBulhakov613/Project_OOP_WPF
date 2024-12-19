@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace Project_OOP_WPF.UserControls
 {
@@ -95,6 +96,23 @@ namespace Project_OOP_WPF.UserControls
             }
             else
                 MessageBox.Show("Click on a row on the table to select a Hospital.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        private void default_hospital_click(object sender, RoutedEventArgs e)
+        {
+            Hospital newHospital = new Hospital("default", "default", new() { 1, 2, 3 });
+
+            // update main hospital list
+            _mainWindow.Hospitals.Add(newHospital);
+
+            // clear inputs after success
+            AddHospital_Name.Clear();
+            AddHospital_Location.Clear();
+            AddHospital_Rooms.Clear();
+
+            _mainWindow._selectedHospital = newHospital;
+
+            // update the grid
+            HospitalDataGrid.Items.Refresh();
         }
     }
 }

@@ -43,7 +43,8 @@ namespace Project_OOP_WPF.UserControls
 
         private void AddMedicalError_Date_Loaded(object sender, RoutedEventArgs e)
         {
-            AddMedicalRecord_Date.BlackoutDates.Add(new CalendarDateRange(DateTime.Today.AddDays(1), DateTime.MaxValue));
+            //AddMedicalRecord_Date.BlackoutDates.Add(new CalendarDateRange(DateTime.Today.AddDays(1), DateTime.MaxValue));
+            AddMedicalRecord_Date.DisplayDateEnd = DateTime.Today;
         }
 
         private void AddMedicalError_Date_DateValidationError(object sender, DatePickerDateValidationErrorEventArgs e)
@@ -146,7 +147,8 @@ namespace Project_OOP_WPF.UserControls
             else
                 throw new ArgumentException("! PATIENT: Must always have a birthday.");
 
-            _patientReference.AddMedicalRecord(_diagnoses, _treatments, _medications, date);
+            try { _patientReference.AddMedicalRecord(_diagnoses, _treatments, _medications, date); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Errors encountered!", MessageBoxButton.OK); }
             MedicalRecordDataGrid.ItemsSource = null;
             MedicalRecordDataGrid.ItemsSource = _patientReference.MedicalHistory;
 

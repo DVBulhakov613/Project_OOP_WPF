@@ -4,9 +4,97 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Project_OOP_WPF.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="DodgerBlue">
-        <TextBlock Text="Appointments Layout" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
+             xmlns:core="clr-namespace:Project_OOP_WPF"
+             mc:Ignorable="d">
+    <Grid Width="558" Height="450" Background="GhostWhite">
+        <TabControl Name="ListsTabControl" Margin="10,10,40,120">
+            <TabItem Header="Current Appointments">
+                <Grid>
+                    <DataGrid x:Name="AppointmentsDataGrid" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" HeadersVisibility="Column" Margin="10,10,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Room ID" Binding="{Binding RoomID}" />
+                            <DataGridTextColumn Header="Patient ID" Binding="{Binding Appointee.ID}"/>
+                            <DataGridTextColumn Header="Staff count" Binding="{Binding Staff.Count}"/>
+                            <DataGridTextColumn Header="Purpose" Binding="{Binding Purpose}" />
+                            <DataGridTextColumn Header="Start time" Binding="{Binding StartTime, StringFormat=\{0:dd.MM.yyyy\}}" />
+                            <DataGridTextColumn Header="End time" Binding="{Binding EndTime, StringFormat=\{0:dd.MM.yyyy\}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Patients">
+                <Grid>
+                    <DataGrid Name="PatientDataGrid" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" Margin="10,10,10,43">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="25"/>
+                            <DataGridTextColumn Header="F. Name" Binding="{Binding FirstName}" Width="70"/>
+                            <DataGridTextColumn Header="M. Name" Binding="{Binding MiddleName}" Width="70"/>
+                            <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
+                            <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy\}}" Width="70"/>
+                            <DataGridTextColumn Header="M. Records" Binding="{Binding MedicalHistory.Count}" Width="70"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Select" Width="115" Click="SelectPatient_Click" Height="28" Margin="10,254,377,10" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Staff">
+                <Grid>
+                    <DataGrid Name="StaffDataGrid" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" Margin="10,10,10,82">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="25"/>
+                            <DataGridTextColumn Header="F. Name" Binding="{Binding FirstName}" Width="70"/>
+                            <DataGridTextColumn Header="M. Name" Binding="{Binding MiddleName}" Width="70"/>
+                            <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
+                            <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy\}}" Width="70"/>
+
+                            <DataGridTemplateColumn Header="Roles">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding Roles}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Add" Width="60" Margin="10,215,432,49" Click="AddStaff_Click" Height="28" />
+                    <Button Content="Remove" Width="60" Margin="75,215,367,49" Click="RemoveStaff_Click" Height="28" />
+                    <ListBox Name="StaffList" Margin="140,215,10,10" Height="67"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Name="CreateAppointment" Content="Create Appointment" Click="CreateAppointment_Click" Margin="402,345,40,83"/>
+        <TextBlock Margin="257,348,267,86" TextWrapping="Wrap" Text="Room:"/>
+        <ComboBox Name="AppointmentPurposeComboBox" Margin="310,372,174,46" ItemsSource="{local:EnumBindingSource EnumType=core:AppointmentPurpose}" SelectionChanged="PurposeBox_SelectionChanged"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,380,0,0" TextWrapping="Wrap" Text="Purpose:" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" Margin="11,339,310,83">
+            <TextBlock TextWrapping="Wrap" Text="Start time:" Height="15" Margin="5,0,0,0"/>
+            <DatePicker x:Name="StartDate" Loaded="Error_Date_Loaded" Height="28" Margin="0,0,5,0" Width="95"/>
+            <TextBox x:Name="StartHour" Width="30" Height="20" TextAlignment="Center" Margin="5,0,5,0"/>
+            <TextBlock Text=":" VerticalAlignment="Center"/>
+            <TextBox x:Name="StartMinute" Width="30" Height="20" TextAlignment="Center" Margin="5,0,5,0"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="11,372,307,46">
+            <TextBlock TextWrapping="Wrap" Text="End time:" Height="15" Margin="5,0,5,0"/>
+            <DatePicker x:Name="EndDate" Loaded="Error_Date_Loaded" Height="28" Margin="0,0,5,0" Width="95"/>
+            <TextBox x:Name="EndHour" Width="30" Height="20" TextAlignment="Center" Margin="5,0,5,0"/>
+            <TextBlock Text=":" VerticalAlignment="Center"/>
+            <TextBox x:Name="EndMinute" Width="30" Height="20" TextAlignment="Center" Margin="5,0,5,0"/>
+        </StackPanel>
+        <TextBox Name="RoomTextBlock" TextAlignment="Center" Margin="310,345,174,83"/>
+
+        <!--<Button x:Name="debug_createAppointmentList" Content="1" Click="debugAppointment_1" Margin="402,380,40,48"/>
+        <Button x:Name="debug_bindAppointmentList" Content="2" Click="CreateAppointment_Click" Margin="402,402,40,26"/>-->
+
     </Grid>
 </UserControl>

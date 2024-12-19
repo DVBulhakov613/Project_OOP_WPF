@@ -89,5 +89,15 @@ namespace Project_OOP_WPF.UserControls
             else
                 MessageBox.Show("Click on a row on the table to select a Patient.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+
+        private void default_patient_click(object sender, RoutedEventArgs e)
+        {
+            Patient patient = new Patient("default", "default", "default", DateTime.Now.AddDays(-1), _selectedHospital);
+
+            _selectedHospital.AddPatient(patient);
+            PatientDataGrid.ItemsSource = null;
+            PatientDataGrid.ItemsSource = _selectedHospital.Patients;
+            PatientDataGrid.Items.Refresh();
+        }
     }
 }

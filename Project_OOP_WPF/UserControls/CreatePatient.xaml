@@ -13,8 +13,8 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="25"/>
                         <DataGridTextColumn Header="F. Name" Binding="{Binding FirstName}" Width="70"/>
-                        <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
                         <DataGridTextColumn Header="M. Name" Binding="{Binding MiddleName}" Width="70"/>
+                        <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
                         <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy\}}" Width="70"/>
                         <DataGridTextColumn Header="M. Records" Binding="{Binding MedicalHistory.Count}" Width="70"/>
                     </DataGrid.Columns>
@@ -39,6 +39,7 @@
                 <CheckBox IsEnabled="False" Name="AddPatient_HasRecordsCheckbox" Content="Has medical records?" HorizontalAlignment="Left" Margin="345,145,0,0" VerticalAlignment="Top"/>
                 <DatePicker DateValidationError="AddPatient_DateOfBirth_DateValidationError" Name="AddPatient_DateOfBirth" HorizontalAlignment="Left" Margin="425,106,0,0" VerticalAlignment="Top" Height="23" Width="105" Loaded="AddPatient_DateOfBirth_Loaded"/>
                 <TextBlock HorizontalAlignment="Left" Margin="345,110,0,0" Text="Date of birth:" VerticalAlignment="Top" Width="70"/>
+                <Button Visibility="Hidden" x:Name="default_patient" Content="default patient" HorizontalAlignment="Left" Margin="345,320,0,0" VerticalAlignment="Top" Height="23" Width="185" Click="default_patient_click"/>
             </Grid>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="240"/>
         </DockPanel>

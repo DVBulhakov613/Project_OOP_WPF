@@ -195,8 +195,8 @@ namespace Project_OOP_WPF
         {
             try { 
                 Person person = People.First(p => p.ID == ID);
-                foreach (int key in person.Schedule.Appointments.Keys)
-                    person.Schedule.CancelAppointment(key);
+                foreach (Appointment app in person.Schedule.Appointments)
+                    person.Schedule.CancelAppointment(app);
 
                 People.Remove(person);
             }
@@ -206,8 +206,8 @@ namespace Project_OOP_WPF
         public void RemovePerson(Person person)
         {
             if (!People.Any(p => p.ID == person.ID)) throw new ArgumentException($"! HOSPITAL: ID {person.ID} does not exist within this Hospital.");
-            foreach (int key in person.Schedule.Appointments.Keys)
-                person.Schedule.CancelAppointment(key);
+            foreach (Appointment app in person.Schedule.Appointments)
+                person.Schedule.CancelAppointment(app);
 
             People.Remove(person);
         }
