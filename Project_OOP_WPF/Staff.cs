@@ -9,7 +9,6 @@ namespace Project_OOP_WPF
 {
     public class Staff : Person
     {
-        private DateTime _birthDate;
         public override DateTime BirthDate
         {
             get => _birthDate;
@@ -26,8 +25,6 @@ namespace Project_OOP_WPF
         //private List<Department> _departments;
 
         #region Properties - Person info
-        public static IDManagement IDManager = new IDManagement();
-
         public override Hospital CurrentHospital { get; set; }
         #endregion
 
@@ -75,25 +72,7 @@ namespace Project_OOP_WPF
         #endregion
 
         #region Methods - Inherited from the Person interface
-        public override void ChangeInfo(string? firstName, string? middleName, string? lastName, DateTime? birthDate)
-        {
-            List<string> exceptions = new();
-
-            try { FirstName = firstName ?? throw new ArgumentException("! PERSON: First name cannot be changed to nothing."); }
-            catch (Exception ex) { exceptions.Add(ex.Message); }
-
-            try { MiddleName = middleName ?? throw new ArgumentException("! PERSON: Middle name cannot be changed to nothing."); }
-            catch (Exception ex) { exceptions.Add(ex.Message); }
-
-            try { LastName = lastName ?? throw new ArgumentException("! PERSON: Last name cannot be changed to nothing."); }
-            catch (Exception ex) { exceptions.Add(ex.Message); }
-
-            try { BirthDate = birthDate ?? throw new ArgumentException("! PERSON: Birth date cannot be changed to nothing."); }
-            catch (Exception ex) { exceptions.Add(ex.Message); }
-
-            if (exceptions.Count > 0)
-                throw new ExceptionList(exceptions);
-        }
+        // actually yeah i can just use the changeinfo from the thing
         #endregion
     }
 }

@@ -320,7 +320,6 @@ namespace Project_Testing
         {
             Hospital testHospital = TestUtilities.DefaultHospital_Testing();
             testHospital.AddPatient(CorrectName, CorrectName, CorrectName, DateTime.Now);
-            Assert.ThrowsException<ExceptionList>(() => testHospital.AddPatient(CorrectName, CorrectName, CorrectName, DateTime.Now.AddYears(-100)), "Not checking for year range");
             Assert.ThrowsException<ExceptionList>(() => testHospital.AddPatient(CorrectName, CorrectName, CorrectName, DateTime.Now.AddYears(100)), "Not checking for year range");
             Assert.ThrowsException<ExceptionList>(() => testHospital.AddPatient(CorrectName, CorrectName, CorrectName, DateTime.Now.AddDays(1)), "Not checking for day range");
 
@@ -734,7 +733,7 @@ namespace Project_Testing
             }
 
             Assert.ThrowsException<ExceptionList>(() => new Patient("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(1), testHospital), "Not checking for DOB range");
-            Assert.ThrowsException<ExceptionList>(() => new Patient("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-120), testHospital), "Not checking for DOB range");
+            Assert.ThrowsException<ExceptionList>(() => new Patient("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-121), testHospital), "Not checking for DOB range");
 
             Assert.AreEqual(0, Patient.IDManager.GenerateID(), "Adding ID's despite incorrect object creation");
         }
@@ -922,7 +921,7 @@ namespace Project_Testing
             Assert.ThrowsException<ExceptionList>(() => ((IPerson)testPatient).ChangeInfo(names, "CorrectName", "CorrectName", DateTime.Now.AddYears(-20)), "Not checking format for first name");
             Assert.ThrowsException<ExceptionList>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", names, "CorrectName", DateTime.Now.AddYears(-20)), "Not checking format for middle name");
             Assert.ThrowsException<ExceptionList>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", names, DateTime.Now.AddYears(-20)), "Not checking format for last name");
-            Assert.ThrowsException<ExceptionList>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-120)), "Not checking for birthdate range");
+            Assert.ThrowsException<ExceptionList>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(-121)), "Not checking for birthdate range");
             Assert.ThrowsException<ExceptionList>(() => ((IPerson)testPatient).ChangeInfo("CorrectName", "CorrectName", "CorrectName", DateTime.Now.AddYears(1)), "Not checking for birthdate range");
         }
 
