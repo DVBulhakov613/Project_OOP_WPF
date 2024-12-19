@@ -160,5 +160,15 @@ namespace Project_OOP_WPF.UserControls
         {
             return _selectedRoles;
         }
+
+        private void default_staff_click(object sender, RoutedEventArgs e)
+        {
+            Staff staff = new Staff("default", "default", "default", DateTime.Today.AddYears(-20), new List<StaffRole>() { StaffRole.Administrator }, _selectedHospital);
+
+            _selectedHospital.AddStaff(staff);
+            StaffDataGrid.ItemsSource = null;
+            StaffDataGrid.ItemsSource = _selectedHospital.ActiveStaff;
+            StaffDataGrid.Items.Refresh();
+        }
     }
 }

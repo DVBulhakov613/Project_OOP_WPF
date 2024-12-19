@@ -74,7 +74,7 @@ namespace Project_OOP_WPF
 
         private void AddAppointment_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new CreateAppointments();
+            MainContent.Content = new CreateAppointments(_selectedHospital);
         }
 
         private void MedicalRecord_AddMedicalRecordsButton_Click(object sender, RoutedEventArgs e)
@@ -86,5 +86,15 @@ namespace Project_OOP_WPF
         {
             MainContent.Content = new CreateStaff(this, _selectedHospital);
         }
+
+        // helper methods
+        //public static void BindEnumToComboBox<TEnum>(ComboBox comboBox) where TEnum : Enum
+        //{
+        //    comboBox.Items.Clear();
+        //    foreach (var value in Enum.GetValues(typeof(TEnum)))
+        //    {
+        //        comboBox.Items.Add(value);
+        //    }
+        //}
     }
 }

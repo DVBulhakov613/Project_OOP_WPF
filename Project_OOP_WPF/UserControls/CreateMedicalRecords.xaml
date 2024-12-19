@@ -73,7 +73,6 @@
 
                         </Grid>
                     </TabItem>
-                    <!-- Symptoms Tab -->
                     <TabItem Header="Diagnoses">
                         <Grid>
                             <StackPanel>
@@ -87,7 +86,6 @@
                         </Grid>
                     </TabItem>
 
-                    <!-- Treatments Tab -->
                     <TabItem Header="Treatments">
                         <Grid>
                             <StackPanel>
@@ -101,7 +99,6 @@
                         </Grid>
                     </TabItem>
 
-                    <!-- Notes Tab -->
                     <TabItem Header="Medications">
                         <Grid>
                             <StackPanel>

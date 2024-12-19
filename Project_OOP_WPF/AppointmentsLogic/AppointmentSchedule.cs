@@ -10,7 +10,7 @@ namespace Project_OOP_WPF
     public class AppointmentSchedule
     {
         private IDManagement IDManager = new IDManagement();
-        public Dictionary<int, Appointment> Appointments = new();
+        public List<Appointment> Appointments = new();
 
         #region Methods
         // DO NOT FORGET:
@@ -24,11 +24,11 @@ namespace Project_OOP_WPF
 
             List<string> exceptions = new();
             foreach(Staff staff in staffInvolved)
-                if (staff.Schedule.Appointments.Values.Any(a => (startTime < a.EndTime && endTime > a.StartTime)))
-                    exceptions.Add($"! SCHEDULE: Staff member {staff.GetFullName}; ID {staff.ID} has a schedule planned already.");
+                if (staff.Schedule.Appointments.Any(a => (startTime < a.EndTime && endTime > a.StartTime)))
+                    exceptions.Add($"! SCHEDULE: Staff member {staff.GetFullName()}; ID {staff.ID} has a schedule planned already.");
 
-            if (appointee.Schedule.Appointments.Values.Any(a => startTime < a.EndTime && endTime > a.StartTime && (a.State != AppointmentState.Ended || a.State != AppointmentState.Cancelled)))
-                exceptions.Add($"! SCHEDULE: Patient member {appointee.GetFullName}; ID {appointee.ID} has a schedule planned already.");
+            if (appointee.Schedule.Appointments.Any(a => startTime < a.EndTime && endTime > a.StartTime && (a.State != AppointmentState.Ended || a.State != AppointmentState.Cancelled)))
+                exceptions.Add($"! SCHEDULE: Patient member {appointee.GetFullName()}; ID {appointee.ID} has a schedule planned already.");
 
             if(exceptions.Count > 0) throw new ExceptionList(exceptions);
             
@@ -45,14 +45,14 @@ namespace Project_OOP_WPF
         }
 
         private void AddAppointment(Appointment appointment)
-        { Appointments.Add(IDManager.GenerateID(), appointment); }
+        { Appointments.Add(appointment); }
 
-        public void CancelAppointment(int appID)
+        public void CancelAppointment(Appointment appointment)
         {
-            if (!Appointments.ContainsKey(appID))
+            if (!Appointments.Contains(appointment))
                 throw new ArgumentException("! SCHEDULE: Appointment does not exist for this member!");
 
-            Appointments[appID].State = AppointmentState.Cancelled;
+            appointment.State = AppointmentState.Cancelled;
         }
 
         //public Appointment GetAppointment(int appID)

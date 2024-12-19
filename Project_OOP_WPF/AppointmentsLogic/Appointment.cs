@@ -103,6 +103,7 @@ namespace Project_OOP_WPF
         {
             List<string> exceptions = new();
 
+            // make a check for DAYS, not total time
             if (startTime >= endTime) exceptions.Add("! APPOINTMENT: The end time of an appointment must be greater than its start time.");
             else
                 try { StartTime = startTime; }
@@ -110,7 +111,8 @@ namespace Project_OOP_WPF
 
             try { EndTime = endTime; }
             catch (Exception ex) { exceptions.Add(ex.Message); }
-
+            // compare the start and end time between each other to
+            // not allow appointments that last for days
             try 
             { 
                 Staff = staff;

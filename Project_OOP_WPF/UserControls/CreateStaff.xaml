@@ -13,8 +13,8 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="25"/>
                         <DataGridTextColumn Header="F. Name" Binding="{Binding FirstName}" Width="70"/>
-                        <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
                         <DataGridTextColumn Header="M. Name" Binding="{Binding MiddleName}" Width="70"/>
+                        <DataGridTextColumn Header="L. Name" Binding="{Binding LastName}" Width="70"/>
                         <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy\}}" Width="70"/>
 
                         <DataGridTemplateColumn Header="Roles">
@@ -36,15 +36,12 @@
                 <!-- <Button Name="RemovePatientButton" Content="Remove Hospital" HorizontalAlignment="Left" Margin="345,223,0,0" VerticalAlignment="Top" Height="23" Width="185"/> -->
                 <!-- Disabled due to lacking functionality as of now -->
                 <Grid Margin="339,10,21,10">
-                    <!-- Select StaffRole -->
                     <TextBlock Text="Select a Role:" Margin="6,130,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <ComboBox Name="StaffRoleComboBox" Margin="95,130,0,0" Loaded="StaffRoleComboBox_Loaded" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96">
-                        <!-- Enum values will be populated in the code-behind -->
                     </ComboBox>
 
                     <Button Content="Add Role" Click="AddRoleButton_Click" Margin="95,263,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96"/>
 
-                    <!-- Display Selected Roles -->
                     <TextBlock Text="Selected Roles:" Margin="6,154,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <ListBox Name="SelectedRolesListBox" Margin="95,154,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="104" Width="96" />
 
@@ -61,6 +58,7 @@
                     <TextBlock HorizontalAlignment="Left" Margin="6,52,0,0" Text="Middle Name:" VerticalAlignment="Top" Width="75"/>
                     <TextBox x:Name="AddStaff_LastName" HorizontalAlignment="Left" Margin="86,72,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="105"/>
                     <TextBlock HorizontalAlignment="Left" Margin="6,73,0,0" Text="Last Name:" VerticalAlignment="Top" Width="60"/>
+                    <Button Visibility="Hidden" x:Name="default_staff" Content="default staff" HorizontalAlignment="Center" Margin="0,392,0,0" VerticalAlignment="Top" Height="23" Width="186" Click="default_staff_click"/>
                 </Grid>
             </Grid>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="240"/>
