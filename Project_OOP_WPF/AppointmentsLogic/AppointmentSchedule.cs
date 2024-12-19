@@ -37,15 +37,12 @@ namespace Project_OOP_WPF
             {
                 Appointment app = new Appointment(room, startTime, endTime, staffInvolved, appointee, purpose);
                 foreach (Staff staff in staffInvolved)
-                    staff.Schedule.AddAppointment(app);
-                appointee.Schedule.AddAppointment(app);
+                    staff.Schedule.Appointments.Add(app);
+                appointee.Schedule.Appointments.Add(app);
             }
             catch (Exception ex) { exceptions.Add(ex.Message); }
             if (exceptions.Count > 0) throw new ExceptionList(exceptions);
         }
-
-        private void AddAppointment(Appointment appointment)
-        { Appointments.Add(appointment); }
 
         public void CancelAppointment(Appointment appointment)
         {

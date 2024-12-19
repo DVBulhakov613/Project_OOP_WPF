@@ -15,7 +15,7 @@ namespace Project_OOP_WPF
         private Patient _appointee;
         private AppointmentPurpose _purpose;
         private AppointmentState _state;
-        private bool disposedValue;
+        //private bool disposedValue;
 
         #region Properties
         public int RoomID
