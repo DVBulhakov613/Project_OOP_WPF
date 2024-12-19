@@ -64,6 +64,11 @@ namespace Project_OOP_WPF
 
         private void Patients_AddPatientsButton_Click(object sender, RoutedEventArgs e)
         {
+            if(_selectedHospital == null)
+            {
+                MessageBox.Show("Select a Hospital before trying to access Hospital-specific menus.");
+                return;
+            }
             MainContent.Content = new CreatePatient(this, _selectedHospital);
         }
 
@@ -74,16 +79,31 @@ namespace Project_OOP_WPF
 
         private void AddAppointment_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedHospital == null)
+            {
+                MessageBox.Show("Select a Hospital before trying to access Hospital-specific menus.");
+                return;
+            }
             MainContent.Content = new CreateAppointments(_selectedHospital);
         }
 
         private void MedicalRecord_AddMedicalRecordsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedPatient == null)
+            {
+                MessageBox.Show("Select a Patient before trying to access Patient-specific menus.");
+                return;
+            }
             MainContent.Content = new CreateMedicalRecords(_patientReference);
         }
 
         private void AddStaffButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedHospital == null)
+            {
+                MessageBox.Show("Select a Hospital before trying to access Hospital-specific menus.");
+                return;
+            }
             MainContent.Content = new CreateStaff(this, _selectedHospital);
         }
 
