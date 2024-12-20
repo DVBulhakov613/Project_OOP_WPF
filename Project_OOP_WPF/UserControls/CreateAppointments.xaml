@@ -16,8 +16,8 @@
                             <DataGridTextColumn Header="Patient ID" Binding="{Binding Appointee.ID}"/>
                             <DataGridTextColumn Header="Staff count" Binding="{Binding Staff.Count}"/>
                             <DataGridTextColumn Header="Purpose" Binding="{Binding Purpose}" />
-                            <DataGridTextColumn Header="Start time" Binding="{Binding StartTime, StringFormat=\{0:dd.MM.yyyy\}}" />
-                            <DataGridTextColumn Header="End time" Binding="{Binding EndTime, StringFormat=\{0:dd.MM.yyyy\}}" />
+                            <DataGridTextColumn Header="Start time" Binding="{Binding StartTime}" />
+                            <DataGridTextColumn Header="End time" Binding="{Binding EndTime}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -72,9 +72,9 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Name="CreateAppointment" Content="Create Appointment" Click="CreateAppointment_Click" Margin="402,345,40,83"/>
-        <TextBlock Margin="257,348,267,86" TextWrapping="Wrap" Text="Room:"/>
-        <ComboBox Name="AppointmentPurposeComboBox" Margin="310,372,174,46" ItemsSource="{local:EnumBindingSource EnumType=core:AppointmentPurpose}" SelectionChanged="PurposeBox_SelectionChanged"/>
+        <Button Name="CreateAppointment" Content="Create Appointment" Click="CreateAppointment_Click" Margin="402,342,40,86"/>
+        <TextBlock Margin="257,345,267,89" TextWrapping="Wrap" Text="Room:"/>
+        <ComboBox Name="AppointmentPurposeComboBox" Margin="310,377,174,51" ItemsSource="{local:EnumBindingSource EnumType=core:AppointmentPurpose}" SelectionChanged="PurposeBox_SelectionChanged"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,380,0,0" TextWrapping="Wrap" Text="Purpose:" VerticalAlignment="Top"/>
         <StackPanel Orientation="Horizontal" Margin="11,339,310,83">
             <TextBlock TextWrapping="Wrap" Text="Start time:" Height="15" Margin="5,0,0,0"/>
@@ -91,7 +91,8 @@
             <TextBlock Text=":" VerticalAlignment="Center"/>
             <TextBox x:Name="EndMinute" Width="30" Height="20" TextAlignment="Center" Margin="5,0,5,0"/>
         </StackPanel>
-        <TextBox Name="RoomTextBlock" TextAlignment="Center" Margin="310,345,174,83"/>
+        <TextBox Name="RoomTextBlock" TextAlignment="Center" Margin="310,342,174,86"/>
+        <Button Name="RemoveAppointment" Content="Remove Appointment" Click="RemoveAppointment_Click" Margin="402,377,40,51"/>
 
         <!--<Button x:Name="debug_createAppointmentList" Content="1" Click="debugAppointment_1" Margin="402,380,40,48"/>
         <Button x:Name="debug_bindAppointmentList" Content="2" Click="CreateAppointment_Click" Margin="402,402,40,26"/>-->

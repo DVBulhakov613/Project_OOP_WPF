@@ -52,6 +52,11 @@ namespace Project_OOP_WPF
             appointment.State = AppointmentState.Cancelled;
         }
 
+        public void RemoveAppointment(Appointment appointment)
+        {
+
+        }
+
         //public Appointment GetAppointment(int appID)
         //{ throw new NotImplementedException(); }
 
