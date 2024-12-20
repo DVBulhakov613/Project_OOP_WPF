@@ -39,6 +39,7 @@ namespace Project_OOP_WPF
                 _roles = value;
             }
         }
+        // поменяй на делегат действий в связи с ролями?
         //public List<Department> Departments { get; set; } = new();
         #endregion
 

@@ -3,7 +3,7 @@
   <Class Name="Project_OOP_WPF.ExceptionList">
     <Position X="14.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>MassExceptionHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,7 +24,7 @@
   <Class Name="Project_OOP_WPF.MainWindow" BaseTypeListCollapsed="true">
     <Position X="11" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAQAAAAAAAAAAAAAgEAAAAAAAgAAA=</HashCode>
+      <HashCode>gAQAAACIAABAAAAAAAAAAAAAAAAARAAAAAAEAgCiEAA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -40,7 +40,7 @@
   <Class Name="Project_OOP_WPF.Patient">
     <Position X="2.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAAAAIAAAAABAAAAwAAAAQAAAAAAQAAAAgAAA=</HashCode>
+      <HashCode>AAAAAAIAAAAAAAAAABAAAAwAAAAAAAAAAAQAAAAgAAA=</HashCode>
       <FileName>Patient.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -59,6 +59,20 @@
       <FileName>Staff.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Project_OOP_WPF.Appointment">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAEAAAACIAAAAAAQECAACAAAICAgAAAAIAAABAAAIAA=</HashCode>
+      <FileName>AppointmentsLogic\Appointment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Project_OOP_WPF.AppointmentSchedule">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAQAAQAAAAAAgARAAAAAA=</HashCode>
+      <FileName>AppointmentsLogic\AppointmentSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="Project_OOP_WPF.IPerson">
     <Position X="5.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -67,10 +81,24 @@
     </TypeIdentifier>
   </Interface>
   <Enum Name="Project_OOP_WPF.StaffRole">
-    <Position X="12.75" Y="3.5" Width="1.5" />
+    <Position X="12.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EEAAAAAAAQAIAACAAAAAAAAAAAEgAAUIAAAAAAACAAE=</HashCode>
       <FileName>StaffRole.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Project_OOP_WPF.AppointmentPurpose">
+    <Position X="11" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAIIAAAAAIAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>AppointmentsLogic\AppointmentPurpose.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Project_OOP_WPF.AppointmentState">
+    <Position X="14.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAEAAAAQAAAAAEAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>AppointmentsLogic\AppointmentState.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

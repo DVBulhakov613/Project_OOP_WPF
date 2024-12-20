@@ -14,7 +14,6 @@ namespace Project_OOP_WPF
     {
 
         #region Properties - Person info
-
         public override DateTime BirthDate
         {
             get => _birthDate;
