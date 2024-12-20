@@ -25,7 +25,18 @@ namespace Project_OOP_WPF.UserControls
         private Patient selectedPatient;
         private List<Staff> selectedStaff = new List<Staff>();
         private AppointmentPurpose _selectedPurpose;
-        
+        private Action<DataGrid, Patient> refreshAppointments = (DataGrid, Patient) =>
+        {
+            DataGrid.ItemsSource = null;
+            DataGrid.ItemsSource = Patient.Schedule.Appointments;
+            DataGrid.Items.Refresh();
+        };
+        private Func<bool> validateAllInputs;
+        private Func<bool> validatePatient;
+        private Func<bool> validateStaff;
+        private Func<bool> validateDates;
+        private Func<bool> validateTime;
+        private Func<bool> validateRoom;
         // me and wpf are in a love-hate relationship
         public CreateAppointments(Hospital hospitalReference)
         {
@@ -34,6 +45,60 @@ namespace Project_OOP_WPF.UserControls
 
             PatientDataGrid.ItemsSource = hospitalReference.Patients;
             StaffDataGrid.ItemsSource = hospitalReference.ActiveStaff;
+
+            #region Delegates
+            validatePatient = () => selectedPatient != null;
+            validateStaff = () => selectedStaff.Count > 0;
+            validateDates = () => StartDate.SelectedDate.HasValue && EndDate.SelectedDate.HasValue;
+            validateTime = () =>
+            {
+                return int.TryParse(StartHour.Text, out int startHour) && startHour >= 0 && startHour < 24 &&
+                       int.TryParse(StartMinute.Text, out int startMinute) && startMinute >= 0 && startMinute < 60 &&
+                       int.TryParse(EndHour.Text, out int endHour) && endHour >= 0 && endHour < 24 &&
+                       int.TryParse(EndMinute.Text, out int endMinute) && endMinute >= 0 && endMinute < 60;
+            };
+            validateRoom = () =>
+            {
+                return RoomTextBlock.Text != null &&
+                       int.TryParse(RoomTextBlock.Text, out int roomNumber) &&
+                       _hospitalReference.Rooms.Contains(roomNumber);
+            };
+
+            validateAllInputs = () =>
+            {
+                if (!validatePatient())
+                {
+                    MessageBox.Show("Please select a patient.");
+                    return false;
+                }
+
+                if (!validateStaff())
+                {
+                    MessageBox.Show("Please select at least one staff member.");
+                    return false;
+                }
+
+                if (!validateDates())
+                {
+                    MessageBox.Show("Please select valid start and end dates.");
+                    return false;
+                }
+
+                if (!validateTime())
+                {
+                    MessageBox.Show("Please enter valid time values.");
+                    return false;
+                }
+
+                if (!validateRoom())
+                {
+                    MessageBox.Show("Invalid room number.");
+                    return false;
+                }
+
+                return true;
+            };
+            #endregion
         }
 
         private void Error_Date_Loaded(object sender, RoutedEventArgs e)
@@ -110,90 +175,39 @@ namespace Project_OOP_WPF.UserControls
         private void CreateAppointment_Click(object sender, RoutedEventArgs e)
         {
             // Validate input
-            if (selectedPatient == null)
-            {
-                MessageBox.Show("Please select a patient.");
+            if(!validateAllInputs())
                 return;
-            }
-
-            if (selectedStaff.Count == 0)
-            {
-                MessageBox.Show("Please select at least one staff member.");
-                return;
-            }
-
-            if (!StartDate.SelectedDate.HasValue)
-            {
-                MessageBox.Show("Please select a valid start date.");
-                return;
-            }
-            DateTime startDate = StartDate.SelectedDate.Value;
-
-            if (!EndDate.SelectedDate.HasValue)
-            {
-                MessageBox.Show("Please select a valid end date.");
-                return;
-            }
-            DateTime endDate = EndDate.SelectedDate.Value;
-
-            if (!int.TryParse(StartHour.Text, out int startHour) || startHour < 0 || startHour > 23)
-            {
-                MessageBox.Show("Please enter a valid start hour (0-23).");
-                return;
-            }
-
-            if (!int.TryParse(StartMinute.Text, out int startMinute) || startMinute < 0 || startMinute > 59)
-            {
-                MessageBox.Show("Please enter a valid start minute (0-59).");
-                return;
-            }
-
-            if (!int.TryParse(EndHour.Text, out int endHour) || endHour < 0 || endHour > 23)
-            {
-                MessageBox.Show("Please enter a valid end hour (0-23).");
-                return;
-            }
-
-            if (!int.TryParse(EndMinute.Text, out int endMinute) || endMinute < 0 || endMinute > 59)
-            {
-                MessageBox.Show("Please enter a valid end minute (0-59).");
-                return;
-            }
-
-            DateTime startDateTime = startDate.AddHours(startHour).AddMinutes(startMinute);
-            DateTime endDateTime = endDate.AddHours(endHour).AddMinutes(endMinute);
-
-            if (startDateTime >= endDateTime)
-            {
-                MessageBox.Show("Start time must be earlier than end time.");
-                return;
-            }
-
-            if (RoomTextBlock.Text != null && int.TryParse(RoomTextBlock.Text, out int roomNumber))
-            {
-                if (!_hospitalReference.Rooms.Contains(roomNumber))
-                {
-                    MessageBox.Show($"{RoomTextBlock.Text} does not exist within this Hospital.");
-                }
-            } else { MessageBox.Show($"{RoomTextBlock.Text} is not a valid room number."); return; }
 
             try
             {
+                DateTime startDateTime = StartDate.SelectedDate.Value
+                    .AddHours(int.Parse(StartHour.Text))
+                    .AddMinutes(int.Parse(StartMinute.Text));
+                DateTime endDateTime = EndDate.SelectedDate.Value
+                    .AddHours(int.Parse(EndHour.Text))
+                    .AddMinutes(int.Parse(EndMinute.Text));
 
-                selectedPatient.Schedule.CreateAppointment(roomNumber, startDateTime, endDateTime, new List<Staff>(selectedStaff), selectedPatient, _selectedPurpose);
+                if (startDateTime >= endDateTime)
+                {
+                    MessageBox.Show("Start time must be earlier than end time.");
+                    return;
+                }
+
+                int roomNumber = int.Parse(RoomTextBlock.Text);
+                selectedPatient.Schedule.CreateAppointment(
+                    roomNumber, 
+                    startDateTime, 
+                    endDateTime, 
+                    new List<Staff>(selectedStaff), 
+                    selectedPatient, 
+                    _selectedPurpose);
                 
-                AppointmentsDataGrid.ItemsSource = null;
-                AppointmentsDataGrid.ItemsSource = selectedPatient.Schedule.Appointments;
-                AppointmentsDataGrid.Items.Refresh();
-
+                refreshAppointments(AppointmentsDataGrid, selectedPatient);
 
                 MessageBox.Show("Appointment created successfully!");
                 ClearForm();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            catch(Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void ClearForm()
@@ -202,6 +216,11 @@ namespace Project_OOP_WPF.UserControls
             StaffList.Items.Clear();
             StartDate.SelectedDate = null;
             EndDate.SelectedDate = null;
+        }
+
+        private void RemoveAppointment_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

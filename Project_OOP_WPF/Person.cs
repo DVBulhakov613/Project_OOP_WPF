@@ -9,6 +9,7 @@ namespace Project_OOP_WPF
 {
     public abstract class Person : IPerson
     {
+
         protected string _firstName;
         protected string _middleName;
         protected string _lastName;
@@ -116,7 +117,6 @@ namespace Project_OOP_WPF
             else
                 throw new ArgumentException("! PERSON.COMPARE: Object is not a Person instance.");
         }
-
         public virtual string GetFullName() { return $"{FirstName} {MiddleName} {LastName}"; }
     }
 }
