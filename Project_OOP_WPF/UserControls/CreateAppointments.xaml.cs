@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Project_OOP_WPF.UserControls
 {
-    /// <summary>
-    /// Interaction logic for CreateAppointments.xaml
-    /// </summary>
     public partial class CreateAppointments : UserControl
     {
         private Hospital _hospitalReference;
