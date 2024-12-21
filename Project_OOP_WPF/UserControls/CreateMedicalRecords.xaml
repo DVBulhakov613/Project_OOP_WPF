@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Project_OOP_WPF.UserControls.CreateMedicalRecords"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_OOP_WPF.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Gray">
+
+        <DockPanel LastChildFill="False">
+
+            <!--<Button Name="EditMedicalRecordButton" Content="Edit Medical Record" HorizontalAlignment="Left" Margin="345,417,0,0" VerticalAlignment="Top" Height="23" Width="185"/>
+                <Button Name="RemoveMedicalRecordButton" Content="Remove Medical Record" HorizontalAlignment="Left" Margin="345,389,0,0" VerticalAlignment="Top" Height="23" Width="185" IsEnabled="False"/>-->
+            <!-- Disabled due to lacking functionality as of now -->
+            <!--<Button Name="SaveMedicalRecordTableButton" Content="Save Medical Records" HorizontalAlignment="Left" Margin="345,361,0,0" VerticalAlignment="Top" Height="23" Width="185" IsEnabled="False"/>-->
+
+            <Grid DockPanel.Dock="Right" Width="558" Height="450" Background="GhostWhite">
+                <TabControl Name="ListsTabControl" Margin="10,10,10,78">
+                    <TabItem Header="Current Medical Records">
+                        <Grid>
+                            <DataGrid x:Name="MedicalRecordDataGrid" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" HeadersVisibility="Column">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Record ID" Binding="{Binding ID}" />
+
+                                    <DataGridTemplateColumn Header="Diagnoses">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding Diagnoses}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Treatments">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding Treatments}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Medications">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding Medications}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Header="Staff Count" Binding="{Binding Staff.Count}" />
+                                    <DataGridTextColumn Header="Created On" Binding="{Binding Date}" />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Diagnoses">
+                        <Grid>
+                            <StackPanel>
+                                <ListBox Name="DiagnosesListBox" Height="296" Margin="0,0,0,10" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="DiagnosesInput" Width="140" />
+                                    <Button Content="Add" Width="60" Margin="5,0,0,0" Click="AddDiagnoses_Click" />
+                                    <Button Content="Remove" Width="60" Margin="5,0,0,0" Click="RemoveDiagnoses_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Treatments">
+                        <Grid>
+                            <StackPanel>
+                                <ListBox Name="TreatmentsListBox" Height="296" Margin="0,0,0,10" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="TreatmentsInput" Width="140" />
+                                    <Button Content="Add" Width="60" Margin="5,0,0,0" Click="AddTreatment_Click" />
+                                    <Button Content="Remove" Width="60" Margin="5,0,0,0" Click="RemoveTreatment_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Medications">
+                        <Grid>
+                            <StackPanel>
+                                <ListBox Name="MedicationsListBox" Height="296" Margin="0,0,0,10" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Name="MedicationsInput" Width="140" />
+                                    <Button Content="Add" Width="60" Margin="5,0,0,0" Click="AddMedication_Click" />
+                                    <Button Content="Remove" Width="60" Margin="5,0,0,0" Click="RemoveMedication_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+                <Button Content="Save Medical Record" Click="SaveMedicalRecord_Click" Margin="10,377,420,33"/>
+                <DatePicker Name="AddMedicalRecord_Date" HorizontalAlignment="Left" Margin="143,377,0,33" Height="40" Width="105" Loaded="AddMedicalError_Date_Loaded"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="240"/>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

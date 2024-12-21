@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Project_OOP_WPF.UserControls.CreateHospital"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_OOP_WPF.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Gray">
+
+        <DockPanel LastChildFill="False">
+            <Grid DockPanel.Dock="Right" Width="558" Background="GhostWhite">
+                <DataGrid Name="HospitalDataGrid" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" Margin="10,15,0,135" HorizontalAlignment="Left" Width="324">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="30"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="70"/>
+                        <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="80"/>
+                        <DataGridTextColumn Header="Rooms" Binding="{Binding Rooms.Count}" Width="55"/>
+                        <DataGridTextColumn Header="Staff" Binding="{Binding ActiveStaff.Count}" Width="55"/>
+                        <DataGridTextColumn Header="Patients" Binding="{Binding Patients.Count}" Width="55"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock HorizontalAlignment="Left" Margin="345,16,0,0" FontSize="16" Text="New hospital parameters:" VerticalAlignment="Top"/>
+
+                <TextBox Name="AddHospital_Name" HorizontalAlignment="Left" Margin="410,41,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,42,0,0" Text="Name:" VerticalAlignment="Top" Width="60"/>
+
+                <TextBox Name="AddHospital_Location" HorizontalAlignment="Left" Margin="410,62,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,63,0,0" Text="Location:" VerticalAlignment="Top" Width="60"/>
+
+                <TextBox Name="AddHospital_Rooms" HorizontalAlignment="Left" Margin="410,97,0,0" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,98,0,0" Text="Rooms:" VerticalAlignment="Top" Width="60"/>
+                <TextBlock HorizontalAlignment="Left" Margin="345,119,0,0" FontSize="10" Text="! Separate the Rooms with a comma." VerticalAlignment="Top" Width="185"/>
+
+                <Button Name="AddHospitalButton" Content="Add Hospital" HorizontalAlignment="Left" Margin="345,195,0,0" VerticalAlignment="Top" Height="23" Width="185" Click="AddHospitalButton_Click"/>
+                <Button Name="RemoveHospitalButton" Content="Remove Hospital" HorizontalAlignment="Left" Margin="345,223,0,0" VerticalAlignment="Top" Height="23" Width="185" Click="RemoveHospitalButton_Click"/>
+                <!-- Disabled due to lacking functionality as of now -->
+                <Button Name="SaveHospitalTableButton" Content="Save Hospitals" HorizontalAlignment="Left" Margin="345,251,0,0" Background="Gray" IsEnabled="False" VerticalAlignment="Top" Height="23" Width="185"/>
+                <Button Name="SelectHospitalButton" Content="Select Hospital" HorizontalAlignment="Left" Margin="345,162,0,0" VerticalAlignment="Top" Height="22" Width="185" Click="SelectHospitalButton_Click"/>
+                <Button Visibility="Hidden" Name="default_hospital" Content="default hospital" HorizontalAlignment="Left" Margin="345,292,0,0" VerticalAlignment="Top" Height="23" Width="185" Click="default_hospital_click"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Width="240"/>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

@@ -1,75 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
+using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Project_OOP_WPF
 {
-    public class Patient : IPerson
+    public class Patient : Person
     {
+
         #region Properties - Person info
-        public int ID
+        public override DateTime BirthDate
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get => _birthDate;
+            set
+            {
+                DateTime minDate = DateTime.Today.AddYears(-120);
+                DateTime maxDate = DateTime.Now;
+                if (value < minDate || value > maxDate)
+                    throw new ArgumentException(null, $"! DATE: Value out of range. The date must be between {minDate:dd.MM.yyyy} and {maxDate:dd.MM.yyyy}.");
+                _birthDate = value;
+            }
         }
-        public static IDManagement IDManager = new IDManagement();
-        public string FirstName
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-        public string MiddleName
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-        public string LastName
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-        public DateTime BirthDate
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-        public Hospital CurrentHospital
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public override Hospital CurrentHospital { get; set; }
         #endregion
 
         #region Properties - Patient-specific fields
         private int nextID { get; set; }
-        public Dictionary<string, MedicalRecord> MedicalHistory { get; private set; }
-        public AppointmentSchedule Schedule
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public List<MedicalRecord> MedicalHistory { get; private set; } = new();
         #endregion
 
         #region Methods - Patient-specific methods
         public Patient(string firstName, string middleName, string lastName, DateTime birthDate, Hospital hospital, List<MedicalRecord>? medicalHistory = null)
-        { throw new NotImplementedException(); }
+            : base(firstName, middleName, lastName, hospital)
+        {
+            List<string> exceptions = new();
+
+            try { BirthDate = birthDate; }
+            catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            if(medicalHistory != null) 
+                try { MedicalHistory = medicalHistory.ToList(); }
+                catch (Exception ex) { exceptions.Add(ex.Message); }
+
+            if (exceptions.Count > 0)
+                throw new ExceptionList(exceptions);
+            ID = IDManager.GenerateID();
+        }
 
         public string GenerateCompositeID(DateTime? time = null)
-        { throw new NotImplementedException(); }
+        {
+            DateTime currentTime = time ?? DateTime.Now;
+            string datePart = currentTime.ToString("dd:MM:yyyy");
 
-        public void AddMedicalRecord(List<Staff> staff, List<string> diagnoses, List<string> treatments, List<string> medications, DateTime? time = null)
-        { throw new NotImplementedException(); }
+            if (!MedicalHistory.Any())
+            {
+                return $"{nextID++}-{datePart}";
+            }
+
+            string lastID = MedicalHistory.Last().ID;
+            string[] lastKey = lastID.Split('-');
+
+            if (lastKey.Length != 2 || !DateTime.TryParseExact(lastKey[1], "dd:MM:yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime lastDate))
+            {
+                throw new InvalidOperationException("Invalid ID format in MedicalHistory.");
+            }
+
+            if (lastKey[1] != datePart)
+            {
+                nextID = 0;
+            }
+
+            return $"{nextID++}-{datePart}";
+        }
+
+
+        public void AddMedicalRecord(List<string> diagnoses, List<string> treatments, List<string> medications, DateTime? time = null, List<Staff>? staff = null)
+        {
+            DateTime timeActual = time ?? DateTime.Now;
+            MedicalHistory.Add(new MedicalRecord(GenerateCompositeID(time), timeActual, diagnoses, treatments, medications, staff));
+        }
         #endregion
 
         #region Methods - Inherited from Person interface
-        public string GetFullName()
-        { throw new NotImplementedException(); }
-        public void ChangeInfo(string? firstName = null, string? middleName = null, string? lastName = null, DateTime? birthDate = null)
-        { throw new NotImplementedException(); }
-        public override string ToString()
-        { throw new NotImplementedException(); }
+        // everything shifted into the inherited person abstract
         #endregion
     }
 }

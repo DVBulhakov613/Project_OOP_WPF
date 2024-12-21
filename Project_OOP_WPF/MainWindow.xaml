@@ -4,9 +4,63 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_OOP_WPF_WPF"
+        xmlns:views="clr-namespace:Project_OOP_WPF.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="465" Width="800" ResizeMode="NoResize">
+    <Grid Height="450" Width="800">
+        <DockPanel LastChildFill="True">
+            <!-- Menu -->
+            <ScrollViewer DockPanel.Dock="Left" Width="250" Background="AliceBlue">
+                <StackPanel>
+                    <!-- People tab -->
+                    <Expander Name="HospitalExpander" Header="Hospital Management" FontWeight="Bold" IsExpanded="True">
+                        <StackPanel>
+                            <TextBlock Name="CurrentHospital" Text="Selected Hospital: None" Margin="20,3,5,0"/>
+                            <Button Name="HospitalManip" Content="Hospital window" Margin="20,3,5,0" Click="HospitalWindow_Click"/>
+                            <!-- People -> Patients-->
+                            <TextBlock Text="Everything related to people." Margin="20, 0, 0, 0"/>
+                            <Expander Name="PatientsExpander" Header="Patients" FontWeight="Bold" Margin="20,3,5,0">
+                                <StackPanel>
+                                    <TextBlock Name="CurrentPatient" Text="Selected Patient: None" Margin="20,3,5,0"/>
+                                    <Button Name="Patients_AddPatientsButton" Content="Patient Menu" Margin="20,3,5,0" Click="Patients_AddPatientsButton_Click"/>
+                                    <Button Name="Patients_ViewPatients" IsEnabled="False" Content="View Patients" Margin="20,3,5,0" Click="Patients_ViewPatients_Click"/>
+                                    <!-- People -> Patients -> Medical Records -->
+                                    <Expander Header="Medical Records" FontWeight="Bold" Margin="20,3,5,0">
+                                        <StackPanel>
+                                            <Button Name="MedicalRecord_AddMedicalRecordsButton" Content="Medical Record Menu" Margin="20,3,5,0" Click="MedicalRecord_AddMedicalRecordsButton_Click"/>
+                                        </StackPanel>
+                                    </Expander>
+                                    <!-- People -> Patients -> Options -->
+                                    <Expander Name="PatientsOptionsExpander" Header="Options" FontWeight="Bold" Margin="20,3,0,0">
+                                        <StackPanel/>
+                                    </Expander>
+                                </StackPanel>
+                            </Expander>
+                            <!-- People -> Staff -->
+                            <Expander Name="StaffExpander" Header="Staff" FontWeight="Bold" Margin="20,3,5,0">
+                                <StackPanel>
+                                    <Button Content="Add Staff" Margin="20,3,5,0" Click="AddStaffButton_Click"/>
+                                    <Button Content="View Staff" IsEnabled="False" Margin="20,3,5,0"/>
+                                    <!-- People -> Staff -> Options -->
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="ScheduleExpander" Header="Schedule" FontWeight="Bold" Margin="20,3,5,0">
+                                <StackPanel>
+                                    <Button Name="AddAppointment" Content="Add Appointment" Margin="20,3,5,0" Click="AddAppointment_Click"/>
+                                    <Button Content="View Schedule" IsEnabled="False" Margin="20,3,5,0"/>
+                                    <!-- People -> Staff -> Options -->
+                                </StackPanel>
+                            </Expander>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
 
+            <ContentControl Name="MainContent" DockPanel.Dock="Right" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Background="LightBlue">
+                    <TextBlock Text="MainWindow layout" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+            </ContentControl>
+        </DockPanel>
     </Grid>
 </Window>
